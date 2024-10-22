@@ -5,5 +5,5 @@
 .venv/
 
 # Viu datasets
-src/Viu_datasets/*
-!src/Viu_datasets
+src/Viu_datasets/*.xlsx
+src/Viu_datasets/*.csv

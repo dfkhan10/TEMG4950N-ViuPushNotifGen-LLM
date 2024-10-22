@@ -5,3 +5,7 @@ required api keys:
 TOGETHER_API_KEY
 LANGCHAIN_API_KEY
 PINECONE_API_KEY
+
+!!! DO NOT COMMIT VIU's DATA TO GITHUB!!!
+Please upload Viu's database to Viu_databases folder
+    update gitignore if new file type is added
