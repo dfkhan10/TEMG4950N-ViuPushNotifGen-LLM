@@ -1,0 +1,7 @@
+To activate the venv: .\.venv\Scripts\Activate.ps1
+To run the programme: python main.py
+
+required api keys:
+TOGETHER_API_KEY
+LANGCHAIN_API_KEY
+PINECONE_API_KEY
