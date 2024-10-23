@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_together import ChatTogether
 
-llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.2)
+llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
 
 prompt = """You are a professional digital marketer in a streaming service company Viu. Based on the following details, create a cast-driven push notification to engage the user about the latest content.
 
@@ -38,5 +38,7 @@ def generating(use_case_data, retrieved_doc):
     }
 
     eng_push = chain.invoke(document)
+    
+    print(eng_push)
     
     return eng_push

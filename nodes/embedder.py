@@ -2,12 +2,13 @@ import os
 import time
 from pinecone import Pinecone, ServerlessSpec
 from langchain_together import TogetherEmbeddings
+from langchain_pinecone import PineconeVectorStore
 
 client = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
 
-def embedding(splits):
+def embedding(splits, series_name, cast):
     
-    index_name = "series-test"
+    index_name = (series_name + "-" + cast).replace(' ', '-').lower()
 
     existing_indexes = [index_info["name"] for index_info in client.list_indexes()]
 
@@ -23,8 +24,6 @@ def embedding(splits):
 
     index = client.Index(index_name)
 
-    from langchain_pinecone import PineconeVectorStore
-
     embeddings = TogetherEmbeddings(
         model="togethercomputer/m2-bert-80M-8k-retrieval",
         api_key=os.getenv('TOGETHER_API_KEY')
@@ -32,5 +31,7 @@ def embedding(splits):
     vectorstore = PineconeVectorStore(index=index, embedding=embeddings)
 
     vectorstore.add_documents(documents=splits)
+
+    print("vectors are stored in index: " + index_name)
 
     return vectorstore

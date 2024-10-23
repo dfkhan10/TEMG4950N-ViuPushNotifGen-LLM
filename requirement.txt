@@ -4,3 +4,4 @@ langchain_pinecone
 langchain_together
 pandas
 beautifulsoup4
+wikipedia
