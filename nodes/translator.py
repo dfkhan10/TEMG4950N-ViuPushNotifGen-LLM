@@ -21,6 +21,9 @@ def engToMalay(eng_push):
     malay_chain = gen_prompt | llm | StrOutputParser()
 
     malay_push = malay_chain.invoke({"notif": eng_push})
+    
+    print(malay_push)
+    
     return malay_push
 
 

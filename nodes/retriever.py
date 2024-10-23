@@ -1,8 +1,12 @@
-def retrieving(vectorstore, cast):
+def retrieving(vectorstore, cast, series_name):
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 6})
-    question = "Who is acted by " + cast
+    question = "Tell me more about the character acted by " + cast + " in the series: " + series_name
     retrieved_doc = retriever.invoke(question)
+    
+    print("The following are retrieved:")
+    for doc in retrieved_doc:
+        print(doc)
     
     return retrieved_doc
 
