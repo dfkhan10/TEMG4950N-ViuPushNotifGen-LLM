@@ -5,3 +5,5 @@ langchain_together
 pandas
 beautifulsoup4
 wikipedia
+fastapi
+uvicorn

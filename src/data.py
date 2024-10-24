@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import random
 
 def excelToPandas(datasets):
 
@@ -16,6 +17,17 @@ def excelToPandas(datasets):
     
     return content_meta_df, content_des_df
 
+def getSeriesEpisodeMatch(serie_database, episode_database, language):
+    
+    serie_extrernal_id = set(serie_database["EXTERNAL_SERIES_ID"])
+    episode_extrernal_id = set(episode_database["EXTERNAL_SERIES_ID"])
+
+    common_id = serie_extrernal_id.intersection(episode_extrernal_id)  
+    
+    print(list(common_id))
+    
+    return list(common_id)  
+    
 def getCastDrivenData(cast, datasets):
     
     content_meta_df, content_des_df = excelToPandas(datasets)
@@ -28,31 +40,33 @@ def getCastDrivenData(cast, datasets):
         (content_meta_df['HOST'].str.contains(cast)) |
         (content_meta_df['VO_TALENT'].str.contains(cast))
     ]
-
-    #Let user to decide which series to promote
-    print("List of series that involve " + cast)
-    for idx, series in enumerate(meta.iloc[:]['GROUP_SERIES_NAME']):
-        print(str(idx + 1) + ". " + series)
-    series_idx = int(input("Please choose the index of the series to promote: ")) - 1
-    series = meta.iloc[[series_idx]]
-
-    #Get the row from description by series ID
-    dess = content_des_df[
-        (content_des_df['EXTERNAL_SERIES_ID'] == series.iloc[0]['EXTERNAL_SERIES_ID']) &
-        (content_des_df['AREA_NME'] == 'Hong Kong') &
-        (content_des_df['LANG_NME'] == 'English')
-    ]
+    
+    #Get the row from description by area
+    dess = content_des_df[(content_des_df['AREA_NME'] == 'Malaysia')]
+    
+    common_id = getSeriesEpisodeMatch(meta, dess, "Malaysia")
+    
+    #choose a random series
+    random_series_idx = random.randint(0, len(common_id) - 1)
+    series = meta[(meta["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
+    episodes = dess[(dess["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
+    
+    #choose a random episode
+    random_episode_idx = random.randint(0, len(episodes) - 1)
 
     #Group the data, ASSUME promote episode 1 in this case
     data = {
         "target_cast": cast,
         "target_cast_type": next((col for col in series.columns if series[col].str.contains(cast).any()), None),
+        "series_idx": series.iloc[0]['EXTERNAL_SERIES_ID'],
         "series_name": series.iloc[0]['GROUP_SERIES_NAME'],
-        "series_description": dess.iloc[0]["SRI_DES"],
+        "series_description": episodes.iloc[random_episode_idx]["SRI_DES"],
         "series_wiki_url": series.iloc[0]['WIKI_EN_URL'],
-        "episode_idx": dess.iloc[0]["EPS_NO"],
-        "episode_name": dess.iloc[0]["EPS_SYP"],
-        "episode_description": dess.iloc[0]["EPS_DES"],
+        "episode_idx": episodes.iloc[random_episode_idx]["EPS_NO"],
+        "episode_name": episodes.iloc[random_episode_idx]["EPS_SYP"],
+        "episode_description": episodes.iloc[random_episode_idx]["EPS_DES"],
     }
+    
+    print(data)
     
     return data
