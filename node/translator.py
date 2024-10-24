@@ -1,26 +1,32 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import JsonOutputParser
 from langchain_together import ChatTogether
 
 llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.2)
 
-prompt = """You are a professional translator in a streaming service company Viu. Based on the following details, translate the given cast-driven push notification.
+prompt = """You are a professional translator in a streaming service company Viu. Based on the following details, 
 
-Your primary objective is to translate the english notification to Bahasa Malaysian and include local slangs.
+translate the given cast-driven push notification.
+
+Your primary objective is to rewrite the english notification in Bahasa Malaye and include local slangs,
+And explain how to rewrite and translate, what slang you have added.
 
 DO NOT translate the name of the show!
+DO NOT simply translate word by word, be fun!
 
 The notification is in the following format.
-**Push Notification:** {notif}
+**Push Notification Title:** {title}
+**Push Notification Body:** {body}
+**Push Notification Explanation:** {explanation}
 
-Please output the notification in string."""
+and output the push notification in Json format:  "title", "body", "explanation". """
 
 def engToMalay(eng_push):
     
     gen_prompt = ChatPromptTemplate.from_messages([("system", prompt)])
-    malay_chain = gen_prompt | llm | StrOutputParser()
+    malay_chain = gen_prompt | llm | JsonOutputParser()
 
-    malay_push = malay_chain.invoke({"notif": eng_push})
+    malay_push = malay_chain.invoke(eng_push)
     
     print(malay_push)
     
