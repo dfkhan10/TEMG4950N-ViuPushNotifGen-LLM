@@ -6,9 +6,9 @@ from langchain_pinecone import PineconeVectorStore
 
 client = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
 
-def embedding(splits, series_name, cast):
+def embedding(splits, cast):
     
-    index_name = (series_name + "-" + cast).replace(' ', '-').lower()
+    index_name = (cast).replace(' ', '-').lower()
 
     existing_indexes = [index_info["name"] for index_info in client.list_indexes()]
 
