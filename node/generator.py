@@ -27,9 +27,9 @@ Do not just copy the given descriptions, promote by the cast first, and then the
 
 Keeps the push short within 35 chars per title and 100 chars per body.
 Please format the notification to be concise, engaging, and to include a call-to-action,
-and output the push notification in Json format: "title", "body", "explanation". """
+and output {push_number} push notifications in Json format: ("title", "body", "explanation"). """
 
-def generating(use_case_data, retrieved_doc):
+def generating(use_case_data, retrieved_doc, push_number):
     gen_prompt = ChatPromptTemplate.from_messages([("system", prompt)])
     chain = gen_prompt | llm | JsonOutputParser()
 
@@ -40,6 +40,7 @@ def generating(use_case_data, retrieved_doc):
         "series_description": use_case_data["series_description"],
         "episode_description": use_case_data["episode_description"],
         "wiki_description": retrieved_doc,
+        "push_number": push_number
     }
 
     eng_push = chain.invoke(document)
