@@ -1,19 +1,16 @@
-from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel
-from typing import Optional
-from fastapi.params import Body
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter
+from typing import Optional, Dict
 from model.push_notification import PushResponse
 from pipeline import castDrivenPipeline
 
 cast_driven_router = APIRouter()
 
 @cast_driven_router.post("/genPush")
-async def gen_push(cast_name: Optional[str]) -> PushResponse:
+async def gen_push(cast_name: Optional[str]) -> Dict[int, PushResponse]:
    try:
       print("---testing---")
-      eng_push, malay_push = castDrivenPipeline(cast_name)
-      return PushResponse(eng_push=eng_push, malay_push=malay_push)
+      pushes = castDrivenPipeline(cast_name, push_number = 5)
+      return pushes
    except Exception as e:
       print(e)
       raise e

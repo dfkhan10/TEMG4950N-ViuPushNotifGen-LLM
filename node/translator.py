@@ -19,7 +19,7 @@ The notification is in the following format.
 **Push Notification Body:** {body}
 **Push Notification Explanation:** {explanation}
 
-and output the push notification in Json format:  "title", "body", "explanation". """
+and output ONLY the push notification in Json format:  "title", "body", "explanation". """
 
 def engToMalay(eng_push):
     
