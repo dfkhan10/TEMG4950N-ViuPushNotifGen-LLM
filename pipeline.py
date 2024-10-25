@@ -1,7 +1,8 @@
 from src.data import getCastDrivenData
 from node import loader, splitter, embedder, retriever, generator, translator, tester
+from model.push_notification import PushResponse
 
-def castDrivenPipeline(cast, datasets = "Viu_datasets"):
+def castDrivenPipeline(cast, push_number, datasets = "Viu_datasets"):
     
     print("___Start Handling Data___")
     cast_driven_data = getCastDrivenData(cast, datasets)
@@ -21,9 +22,12 @@ def castDrivenPipeline(cast, datasets = "Viu_datasets"):
     tester.testingRetrievalResult(cast_driven_data, cast_retrieved_info)
     
     print("___Start Generation___")
-    eng_push = generator.generating(cast_driven_data, cast_retrieved_info)
+    eng_pushes = generator.generating(cast_driven_data, cast_retrieved_info, push_number)
     
     print("___Start Translation___")
-    malay_push = translator.engToMalay(eng_push)
+    pushes = {}
+    for idx, eng_push in enumerate(eng_pushes):
+        pushes[idx + 1] = PushResponse(eng_push=eng_push, malay_push=translator.engToMalay(eng_push))
     
-    return eng_push, malay_push
+    print("___End of Pipeline___")    
+    return pushes
