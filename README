@@ -1,15 +1,20 @@
 ![overall_architecture.png](src/overall_architecture.png)
 
-Please create a .venv in local for the dependencies
+Please create a .venv in local for the dependencies in backend
 To create the venv: python -m venv .venv
 To activate the venv: .\.venv\Scripts\Activate.ps1
 Install dependencies through pip according to requirement.txt
-To run the programme: python main.py
+To run the backend server: python main.py (localhost:8000/docs can access swagger api)
+To start the frontend server: npm start
 
-required api keys:
+backend .env required api keys:
 TOGETHER_API_KEY
 LANGCHAIN_API_KEY
 PINECONE_API_KEY
+FRONTEND_URL
+
+frontend .env required variables:
+BACKEND_URL
 
 !!! DO NOT COMMIT VIU's DATA TO GITHUB!!!
 Please upload Viu's database to Viu_databases folder
