@@ -8,3 +8,5 @@ beautifulsoup4
 wikipedia
 fastapi
 uvicorn
+langgraph
+openpyxl

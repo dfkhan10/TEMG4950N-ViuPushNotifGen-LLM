@@ -1,4 +1,4 @@
-examples=[
+examples=[  ## Neglect retrieved wiki of series
 {
     "type_of_push_notification": "cast-driven",
     "number_of_push_notifications": 1,
