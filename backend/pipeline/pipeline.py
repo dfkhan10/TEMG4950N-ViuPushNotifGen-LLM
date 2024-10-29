@@ -1,6 +1,18 @@
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+## DEPRICATED
+
 from src.data import getCastDrivenData
 from node import loader, splitter, embedder, retriever, generator, translator, tester
-from model.push_notification import PushResponse
+from utils.schema import PushResponse
 
 def castDrivenPipeline(cast, push_number, datasets = "Viu_datasets"):
     
