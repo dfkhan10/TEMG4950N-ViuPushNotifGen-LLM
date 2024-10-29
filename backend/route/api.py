@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from typing import Optional, Dict
-from model.push_notification import PushResponse
-from pipeline import castDrivenPipeline
+from utils.schema import PushResponse
+from pipeline.pipeline import castDrivenPipeline
 from src import data
 
 api_router = APIRouter()

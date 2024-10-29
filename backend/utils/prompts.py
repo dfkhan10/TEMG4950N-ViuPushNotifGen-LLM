@@ -84,13 +84,13 @@ final_prompt = FewShotPromptTemplate(
     - Number of push notifications: {number_of_push_notifications}
     - Name of the series: {name_of_series}
     - Retrieved wiki of the series: {retrieved_wiki_of_series}
+    - Series content: {series_content}
     - Series description: {series_description}
     - Name of the cast: {name_of_cast}
     - Type of cast={type_of_cast},
     - Nickname of the cast: {nickname_of_cast}
     - Quote of the cast: {quote_of_cast}
     - Interesting fact of the cast: {interesting_fact_of_cast}
-    - Retrieved wiki of the cast: {retrieved_wiki_of_cast}
     - Character in the series acted by the cast: {character_in_series_acted_by_cast}
     
     - Demographics of the target receiver of the push: {demographics_of_target_receiver}
@@ -114,12 +114,12 @@ final_prompt = FewShotPromptTemplate(
         "number_of_push_notifications",
         "name_of_series",
         "retrieved_wiki_of_series",
+        "series_content",
         "series_description",
         "name_of_cast",
         "nickname_of_cast",
         "quote_of_cast",
         "interesting_fact_of_cast",
-        "retrieved_wiki_of_cast",
         "character_in_series_acted_by_cast",
         "demographics_of_target_receiver",
         "base_push_example",
