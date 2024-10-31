@@ -25,7 +25,7 @@ def testingPipeline(cast, push_number, datasets = "Viu_datasets"):
     cast_driven_data = data.getCastDrivenData(cast, datasets)
     
     print("___Start Loading___")
-    series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"])
+    series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"]) #empty link
     cast_wiki = loader.wikiLoading(cast)
     
     print("___Start Splitting___")
@@ -77,4 +77,64 @@ def testingPipeline(cast, push_number, datasets = "Viu_datasets"):
     print("___Start Generation___")
     generating(input_variables)
     
-    print("___End of Pipeline___")    
+    print("___End of Pipeline___")
+
+
+def testingContentPipeline(content, push_number, datasets = "Viu_datasets"):
+    print("___Start Handling Data___")
+    content_driven_data = data.getContentDrivenData(content, datasets)
+
+    print("___Start Loading___")
+    series_wiki = loader.webLoading(content_driven_data["series_wiki_url"])
+    content_wiki = loader.wikiLoading(content)
+
+    print("___Start Splitting___")
+    splitted_wiki = splitter.splitting([series_wiki, content_wiki])
+
+    print("___Start Embedding___")
+    vectorstore = embedder.embedding(splitted_wiki, content)
+
+    print("___Start Retrieval___")
+    answers = []
+    question_list = questions.content_driven_questions(content_driven_data["series_name"])
+    for question in question_list:
+        inputs = {"question": question, "vectorstore": vectorstore, "retry_count": 0}
+        for output in retrieveRAG.retrieval_RAG_pipeline.stream(inputs):
+            for key, value in output.items():
+                pprint.pprint(f"Finished running: {key}:")
+        try:
+            answers.append(value["generation"])
+        except KeyError:
+            print("Sorry but I don't have related information \n")
+            print("---END OF PROCESS: EXCEED TIME LIMIT---")
+    if len(answers) == 1:
+        for _ in range(4):
+            answers.append(None)
+
+    retrieved_wiki_of_series = retriever.wiki_content_retrieving(vectorstore, content_driven_data["series_name"])
+
+    input_variables = {
+        "type_of_push_notification": "content-driven",
+        "number_of_push_notifications": push_number,
+        "name_of_series": content_driven_data["series_name"],
+        "retrieved_wiki_of_series": retrieved_wiki_of_series,
+        "series_content": answers[0], 
+        "series_description": content_driven_data["series_description"],
+        "name_of_cast": None,
+        "type_of_cast": None,
+        "nickname_of_cast": None,
+        "quote_of_cast": None,
+        "interesting_fact_of_cast": None,
+        "character_in_series_acted_by_cast": None,
+        "demographics_of_target_receiver": "All ages",
+        "base_push_example": None,
+        "local_trend_in_malaysia": "Typhone is hitting Malaysia, people are advised to stay at home and be safe.",
+        "include_emoji": True,
+        "include_slangs": True,
+        "additional_requirements": None,
+    }
+    
+    print("___Start Generation___")
+    generating(input_variables)
+    
+    print("___End of Pipeline___")
