@@ -2,6 +2,9 @@ from langchain_community.document_loaders import WebBaseLoader, WikipediaLoader
 
 def webLoading(url):
     
+    if url == None:
+        return None
+
     loader = WebBaseLoader(url)
     loaded_doc = loader.load()
     

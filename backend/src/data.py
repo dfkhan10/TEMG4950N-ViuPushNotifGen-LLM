@@ -70,3 +70,40 @@ def getCastDrivenData(cast, datasets):
     print(data)
     
     return data
+
+
+def getContentDrivenData(content, datasets):
+        
+        content_meta_df, content_des_df = excelToPandas(datasets)
+        
+        #Get the row from meta by cast
+        meta = content_meta_df[(content_meta_df['GROUP_SERIES_NAME'] == content)]
+        
+        #Get the row from description by area
+        dess = content_des_df[(content_des_df['AREA_NME'] == 'Malaysia')]
+        
+        common_id = getSeriesEpisodeMatch(meta, dess, "Malaysia")
+
+        series = meta[(meta["EXTERNAL_SERIES_ID"] == common_id[0])]
+        episodes = dess[(dess["EXTERNAL_SERIES_ID"] == common_id[0])]
+
+        # Create Dataframe of episode descriptions
+        df = pd.DataFrame(episodes, columns=["EPS_NO", "EPS_SYP", "EPS_DES"])
+        df['EPISODES_DES'] = df.agg(lambda x: f"Episode: {x['EPS_NO']}; Episode Synopsis: {x['EPS_SYP']}; Episode Description: {x['EPS_DES']}", axis=1)
+
+        data = {
+            "target_content": content,
+            "series_idx": series.iloc[0]['EXTERNAL_SERIES_ID'],
+            "series_name": series.iloc[0]['GROUP_SERIES_NAME'],
+            "series_description": episodes.iloc[0]["SRI_DES"],
+            "series_wiki_url": series.iloc[0]['WIKI_EN_URL'],
+            "episodes_description": " | ".join(df['EPISODES_DES'].tolist()),
+        }
+
+        print(data)
+
+        return data
+        
+
+
+#getContentDrivenData("Anggun Mikayla", "Viu_datasets")
