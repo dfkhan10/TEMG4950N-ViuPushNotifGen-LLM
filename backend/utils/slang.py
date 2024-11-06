@@ -90,3 +90,56 @@ slang_list = [
         "example":"Syok lah! Chris Martin mendeklamasikan sajak Melayu!",
     },
 ]
+
+shortform_list = [
+    {
+        "short-form word":"nak",
+        "normal word":"hendak",
+        "meaning":"want",
+    },
+    {
+        "short-form word":"jgn",
+        "normal word":"jangan",
+        "meaning":"do not",
+    },
+    {
+        "short-form word":"tu",
+        "normal word":"itu",
+        "meaning":"that",
+    },
+    {
+        "short-form word":"utk",
+        "normal word":"untuk",
+        "meaning":"for",
+    },
+    {
+        "short-form word":"yg",
+        "normal word":"yang",
+        "meaning":"that",
+    },
+    {
+        "short-form word":"ni",
+        "normal word":"ini",
+        "meaning":"this",
+    },
+    {
+        "short-form word":"tiada",
+        "normal word":"tidak ada",
+        "meaning":"don't have",
+    },
+    {
+        "short-form word":"dlm",
+        "normal word":"dalam",
+        "meaning":"inside",
+    },
+    {
+        "short-form word":"dgn",
+        "normal word":"dengan",
+        "meaning":"with",
+    },
+    {
+        "short-form word":"tak",
+        "normal word":"tidak",
+        "meaning":"not",
+    },
+]
