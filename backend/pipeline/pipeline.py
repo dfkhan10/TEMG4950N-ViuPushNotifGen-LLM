@@ -6,6 +6,9 @@ def castDrivenPipeline(cast, push_number, datasets = "Viu_datasets"):
     
     print("___Start Handling Data___")
     cast_driven_data = getCastDrivenData(cast, datasets)
+
+    print("___Start Finding Thumbnails___")
+    data_idx = cast_driven_data["series_idx"] #input this index to retrieve the thumbnails
     
     print("___Start Loading___")
     series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"])
