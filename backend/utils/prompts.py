@@ -101,7 +101,7 @@ final_prompt = FewShotPromptTemplate(
     - Include Slangs: {include_slangs}
     - Additional requirements from the user: {additional_requirements}
 
-    The output format have to be JSON as follows:
+    The output format have to be JSON as follows with all double quotation marks not signle quotation marks!:
     {{
     "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
     "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
