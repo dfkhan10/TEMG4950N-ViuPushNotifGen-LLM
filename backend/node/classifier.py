@@ -2,16 +2,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
 from langchain_core.output_parsers import JsonOutputParser
 
-from src.data import getMalayData
-
-# from dotenv import load_dotenv
-
-# load_dotenv(override=True)
-
-# import os
-# api_key = os.getenv("OPENAI_API_KEY")
-# print("API Key Loaded:", api_key is not None)
-
 llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0)
 
 scraped_data = ['M’sian Woman Celebrates Girl’s Birthday After Hearing She Had No One To Celebrate It With', 
@@ -32,7 +22,7 @@ scraped_data = ['M’sian Woman Celebrates Girl’s Birthday After Hearing She H
 
 def classifying(trend_titles):
     Query_prompt = PromptTemplate(
-        input_variables=["title", "cast", "series"],
+        input_variables=["title", "cast", "series", "description"],
         template=("""
             You are a classifier that determines the usefulness of a trend title for promoting TV shows and series in push notifications. 
 
@@ -40,21 +30,22 @@ def classifying(trend_titles):
             
             star: {cast}
             series: {series}
+            series_description: {description}
 
             Classify the following title:
 
             Title: {title}
 
-            Classify the title into one of the following categories:
+            Classify the title into one of the following categories: (Dont be harsh)
 
-            - **None**: The trend is completely irrelevant to any stars or series.
+            - **None**: This is not an internet trend and cannot use to catch people eyeballs, DONT INCLUDE ANY INTERESTING NEWS THAT CAN CATCH PEOPLE ATTENTION TO THIS CATEGORY.
             - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
-            - **Series**: The trend pertains to a series and is useful for content-driven push notifications.
+            - **Series**: The trend relates to the series content description, such that would be useful to support the series content promotion.
             - **Star and Series**: The trend involves both a star and a series, making it useful for both types of push notifications.
-            - **General**: The trend is related to a general topic (e.g. weather, festivals) and is useful for any push notification, but not specifically tied to stars or series.
+            - **General**: The trend is related to a general topic (e.g. weather, festivals, hot trends slang or headlines) and is useful for any push notification, but not specifically tied to stars or series.
 
-            Return the classification in JSON format as follows: 
-            classification_type: trend_title
+            Return the classification type and the trend title in JSON format as follows: 
+            {{classification_type: trend_title}}
         """),
     )
 
@@ -62,19 +53,20 @@ def classifying(trend_titles):
 
     print("___Classifying___")
     
-    cast = 'KIM Ha Neul'
+    cast = 'Kim Ha Nuel'
     series = 'Nothing Uncovered'
+    description = "A korean series about a girl working hard to get into the kpop industry, bringing the best song to everyone!"
 
     results = {}
     for title in trend_titles:
-        response = classifying_chain.invoke({"title": title, "cast": cast, "series": series})
+        response = classifying_chain.invoke({"title": title, "cast": cast, "series": series, "description": description})
         results[title] = response
         print(response)
     return results
 
 # print("THIS IS THE RESPONSE \n", results)
 def testing():
-    classifying(scraped_data) # For testing
+    classifying(["ROSÉ & Bruno Mars’ New Song “APT.” Has Been Banned for South Korean Students, Here’s Why!"]) # For testing
 
 
 # results = {'M’sian Woman Celebrates Girl’s Birthday After Hearing She Had No One To Celebrate It With': 'none', 
