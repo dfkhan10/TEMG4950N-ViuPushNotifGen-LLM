@@ -1,6 +1,8 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import JsonOutputParser
+
+from src.data import getMalayData
 
 # from dotenv import load_dotenv
 
@@ -30,29 +32,49 @@ scraped_data = ['M’sian Woman Celebrates Girl’s Birthday After Hearing She H
 
 def classifying(trend_titles):
     Query_prompt = PromptTemplate(
-        input_variables=["title"],
-        template=(
-            "You are a classifier that determines whether a title refers to a star or a TV show series. "
-            "Classify the following title:\n\n"
-            "Title: {title}\n\n"
-            "Respond with 'star' if it refers to a star, 'TV show' if it refers to a TV show series, "
-            "or 'none' if it refers to neither."
-        ),
+        input_variables=["title", "cast", "series"],
+        template=("""
+            You are a classifier that determines the usefulness of a trend title for promoting TV shows and series in push notifications. 
+
+            These are the information json of the series and corresponding cast:
+            
+            star: {cast}
+            series: {series}
+
+            Classify the following title:
+
+            Title: {title}
+
+            Classify the title into one of the following categories:
+
+            - **None**: The trend is completely irrelevant to any stars or series.
+            - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
+            - **Series**: The trend pertains to a series and is useful for content-driven push notifications.
+            - **Star and Series**: The trend involves both a star and a series, making it useful for both types of push notifications.
+            - **General**: The trend is related to a general topic (e.g. weather, festivals) and is useful for any push notification, but not specifically tied to stars or series.
+
+            Return the classification in JSON format as follows: 
+            classification_type: trend_title
+        """),
     )
 
-    classifying_chain = Query_prompt | llm | StrOutputParser()
+    classifying_chain = Query_prompt | llm | JsonOutputParser()
 
     print("___Classifying___")
+    
+    cast = 'KIM Ha Neul'
+    series = 'Nothing Uncovered'
 
     results = {}
     for title in trend_titles:
-        response = classifying_chain.invoke({"title": title})
+        response = classifying_chain.invoke({"title": title, "cast": cast, "series": series})
         results[title] = response
-   
+        print(response)
     return results
 
 # print("THIS IS THE RESPONSE \n", results)
-classifying(input) # For testing
+def testing():
+    classifying(scraped_data) # For testing
 
 
 # results = {'M’sian Woman Celebrates Girl’s Birthday After Hearing She Had No One To Celebrate It With': 'none', 
@@ -70,7 +92,3 @@ classifying(input) # For testing
 # 'M’sian With RM1.7K Salary Tries To Buy RM163K Honda Civic, Leaves Car Dealer Speechless': 'none',
 # '“Masa Miskin Tak Termimpi Dapat Kereta” – Aliff Syukri Hadiahkan Toyota Vellfire Buat Bonda Rozita.': 'star',
 # '‘Not True’ — Starbucks M’sia Denies It’s Closing Over 100 Outlets Across Country': 'none'} 
-
-
-
-

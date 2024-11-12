@@ -56,6 +56,7 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
       backendState["include_slangs"] = input_data.isSlangs
       backendState["additional_requirements"] = input_data.addRequirements
       backendState["supporting_documents"] = input_data.otherSupportingDocuments
+      backendState["local_trend_in_malaysia"] = input_data.selected_trend
       
       pushes = castDrivenPipeline("Kim Ha-Nuel", push_number = 5)
       return pushes
@@ -65,7 +66,7 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
       raise e
    
 @api_router.post("/regenPush")
-async def post_regen_push(base_push: PushResponse, additional_requirements: Optional[str]) -> Dict[int, PushResponse]:
+async def post_regen_push(base_push: Optional[PushResponse], additional_requirements: Optional[str]) -> Dict[int, PushResponse]:
    try:
       from main import backendState
       backendState["additional_requirements"] = additional_requirements
