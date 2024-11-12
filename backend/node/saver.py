@@ -1,11 +1,12 @@
 import csv
 import os
+from utils import example
 
 def save_to_csv(data, filename):
     header = ['English', 'Eng_Title', 'Eng_Body', 'Malay', 'Malay_Title', 'Malay_Body']
 
     file_exists = os.path.exists(filename)
-    print(file_exists)
+    #print(file_exists)
 
     try:
         with open(filename, mode='a', newline='',encoding='utf-8') as file:
@@ -32,17 +33,18 @@ def save_to_csv(data, filename):
         print(f'Error: {e}')
 
 
-# Example JSON data
-json_data = {
-    "english": {
-        "title": "KIM Ha Neul's Life Turned Upside Down! 🤯",
-        "body": "The queen of romantic comedies is now a murder suspect? 🤔 Don't believe it! Watch Nothing Uncovered to uncover the truth behind the scandal! 💥 #KimHaNeul #NothingUncovered"
-    },
-    "malay": {
-        "title": "Kehidupan KIM Ha Neul Terbalik! 🤯",
-        "body": "Ratu komedi romantik kini menjadi suspek pembunuhan? 🚔️ Jangan percayya! Tonton Nothing Uncovered untuk mengungkapkan kebenaran di sebalik skandal! 💥 #KimHaNeul #NothingUncovered"
-    }
-}
+def update_examples(variables, data):
 
-# Save the JSON data to CSV
-save_to_csv(json_data, 'utils\history.csv')
+    filename = 'utils\example.py'
+
+    del variables['retrieved_wiki_of_series'] # wiki not stored
+    variables['english_title'] = data['english']['title']
+    variables['english_body'] = data['english']['body']
+    variables['malay_title'] = data['malay']['title']
+    variables['malay_body'] = data['malay']['body']
+    example.examples.append(variables)
+
+    with open(filename, mode='w', encoding='utf-8') as file:
+        file.write('examples = ' + repr(example.examples))  # Write the updated examples list
+
+    print("Example list updated")
