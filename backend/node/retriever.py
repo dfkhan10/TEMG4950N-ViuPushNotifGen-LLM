@@ -51,8 +51,8 @@ def wiki_retrieving(vectorstore, cast, series_name):
     retrieved_doc = retriever.invoke(question)
     
     print("The following are retrieved:")
-    for doc in retrieved_doc:
-        print(doc)
+    #for doc in retrieved_doc:
+    #    print(doc)
     
     return 
     
@@ -63,8 +63,8 @@ def wiki_content_retrieving(vectorstore, series_name):
     retrieved_doc = retriever.invoke(question)
     
     print("The following are retrieved:")
-    for doc in retrieved_doc:
-        print(doc)
+    #for doc in retrieved_doc:
+    #    print(doc)
     
     return
 
@@ -81,8 +81,8 @@ def reranker_retrieving(question, vectorstore):
 
     retrieved_doc = compression_retriever.invoke(question)
 
-    for doc in retrieved_doc:
-        print(doc)
+    #for doc in retrieved_doc:
+    #    print(doc)
 
     return retrieved_doc
 
