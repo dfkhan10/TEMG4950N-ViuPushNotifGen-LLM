@@ -143,7 +143,7 @@ def simplifiedCastPipe(cast, push_number, datasets = "Viu_datasets"):
         "character_in_series_acted_by_cast": answers[4],
         "demographics_of_target_receiver": "20-30 years old, fans of cast",
         "base_push_example": None,
-        "local_trend_in_malaysia": "Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
+        "local_trend_in_malaysia": None, #"Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
         "include_emoji": True,
         "include_slangs": True,
         "additional_requirements": None,
