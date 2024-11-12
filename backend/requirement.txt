@@ -3,7 +3,7 @@ langchain_community
 langchain_pinecone
 langchain_together
 pandas
-dotenv
+python-dotenv
 beautifulsoup4
 wikipedia
 fastapi

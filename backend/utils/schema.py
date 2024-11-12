@@ -22,6 +22,7 @@ class PushRequest(BaseModel):
     isSlangs: bool = True
     addRequirements: Optional[str]
     otherSupportingDocuments: Optional[List[UploadFile]]
+    selected_trend: Optional[str]
 
 class PushResponse(BaseModel):
     eng_push: PushNotification
