@@ -101,14 +101,14 @@ final_prompt = FewShotPromptTemplate(
     - Include Slangs: {include_slangs}
     - Additional requirements from the user: {additional_requirements}
 
-    The output format have to be as follows:
+    The output format have to be JSON as follows:
     {{
-    1: {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
-    2: {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
-    3: {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+    "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+    "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
+    "3": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
     ...
     }}
-    """,
+    Do not include anything else other than the JSON, or the output will be invalid.""",
     input_variables=[
         "type_of_push_notification",
         "number_of_push_notifications",
