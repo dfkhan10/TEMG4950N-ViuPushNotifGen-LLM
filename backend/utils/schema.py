@@ -1,9 +1,10 @@
 from pydantic import BaseModel
-    
+from typing import List, Optional
+from fastapi import File, UploadFile
+
 class PushNotification(BaseModel):
     title: str
     body: str
-    explanation: str
     
     def __str__(self):
         return f"Title: {self.title}\nBody: {self.body}"
@@ -12,9 +13,15 @@ class PushNotification(BaseModel):
         return {"title": self.title, "body": self.body}
     
 class PushRequest(BaseModel):
-   cast_name: str
-   series_name: str
-   episode_idx: int
+    push_type: str
+    cast_name: str
+    series_name: str
+    creativity: int = 0.2
+    demographics: List[int] = [0, 100]
+    isEmojis: bool = True
+    isSlangs: bool = True
+    addRequirements: Optional[str]
+    otherSupportingDocuments: Optional[List[UploadFile]]
 
 class PushResponse(BaseModel):
     eng_push: PushNotification

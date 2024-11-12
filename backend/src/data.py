@@ -27,7 +27,23 @@ def getSeriesEpisodeMatch(serie_database, episode_database, language):
     print(list(common_id))
     
     return list(common_id)  
+
+def getMalayData(datasets):
     
+    content_meta_df, content_des_df = excelToPandas(datasets)
+    
+    #Get the row from meta
+    meta = content_meta_df
+    
+    #Get the row from description by area
+    dess = content_des_df[(content_des_df['AREA_NME'] == 'Malaysia')]
+    
+    common_id = getSeriesEpisodeMatch(meta, dess, "Malaysia")
+    
+    filtered_meta = meta[meta['EXTERNAL_SERIES_ID'].isin(common_id)]
+    
+    return filtered_meta
+
 def getCastDrivenData(cast, datasets):
     
     content_meta_df, content_des_df = excelToPandas(datasets)
@@ -67,7 +83,7 @@ def getCastDrivenData(cast, datasets):
         "episode_description": episodes.iloc[random_episode_idx]["EPS_DES"],
     }
     
-    print(data)
+    #print(data)
     
     return data
 
