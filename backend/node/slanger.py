@@ -3,7 +3,7 @@ load_dotenv(override=True)
 
 from utils import slang
 from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.output_parsers import StrOutputParser
 from langchain_together import ChatTogether
 
 llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
@@ -52,6 +52,6 @@ def rephrase(push):
         """
     )
 
-    chain = prompt | llm | JsonOutputParser()
+    chain = prompt | llm | StrOutputParser()
 
     return chain.invoke({"pushes": push,  "slangs": slangs, "shortforms": shortforms})

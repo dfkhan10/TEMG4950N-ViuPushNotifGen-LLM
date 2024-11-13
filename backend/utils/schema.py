@@ -14,16 +14,23 @@ class PushNotification(BaseModel):
     
 class PushRequest(BaseModel):
     push_type: str
-    cast_name: str
+    cast_name: Optional[str] = None
     series_name: str
-    creativity: int = 0.2
-    demographics: List[int] = [0, 100]
+    creativity: float
+    demographics: List[int]
     isEmojis: bool = True
     isSlangs: bool = True
-    addRequirements: Optional[str]
-    otherSupportingDocuments: Optional[List[UploadFile]]
-    selected_trend: Optional[str]
+    addRequirements: Optional[str] = None
+    otherSupportingDocuments: Optional[List[UploadFile]] = None
+    selected_trend: Optional[str] = None
 
 class PushResponse(BaseModel):
-    eng_push: PushNotification
-    malay_push: PushNotification
+    english: PushNotification
+    malay: PushNotification
+    
+    def dict(self):
+        return {"english": dict(self.english), "malay": dict(self.malay)}
+    
+class PushRegenerateRequest(BaseModel):
+    basePush: Optional[PushResponse] = None
+    addRequirements: Optional[str] = None
