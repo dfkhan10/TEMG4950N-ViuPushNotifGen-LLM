@@ -1,35 +1,40 @@
+import json
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
 from src import data
-from node import loader, splitter, embedder, retriever, slanger
-from langchain_core.output_parsers import JsonOutputParser
+from node import loader, splitter, embedder, retriever, slanger, json_parser
+from langchain_core.output_parsers import StrOutputParser
 from langchain_together import ChatTogether
 from utils import prompts, questions
+from utils.state import backendState
 from pipeline import rerankingRAG
 import pprint
 
-#llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
-llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
-
 def generating(input_var):
+    llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
 
-    chain = prompts.final_prompt | llm | JsonOutputParser()
+    chain = prompts.final_prompt | llm | StrOutputParser()
     push = chain.invoke(input_var)
+    print(push)
+    push = json_parser.extract_json_from_string(push)
     
     print('Before Slanging: ')
     print(push)
 
     if input_var.get('include_slangs', False):
         push = slanger.rephrase(push)
-    
+        print(push)
+        push = json_parser.extract_json_from_string(push)
     print('After Slanging: ')
     print(push)
 
     return push
 
-from main import backendState
-def finalCastPipeline(cast, push_number=5, datasets="Viu_datasets"):
+def finalCastPipeline(push_number=5, datasets="Viu_datasets"):
+    
+    cast = backendState["name_of_cast"]
+    
     print("___Start Handling Data___")
     cast_driven_data = data.getCastDrivenData(cast, backendState['name_of_series'], datasets)
 
@@ -94,12 +99,36 @@ def finalCastPipeline(cast, push_number=5, datasets="Viu_datasets"):
     backendState['interesting_fact_of_cast'] = answers[3]
     backendState['character_in_series_acted_by_cast'] = answers[4]
     
+    input_variables = {
+        "type_of_push_notification": backendState['type_of_push_notification'],
+        "number_of_push_notifications": backendState['number_of_push_notifications'],
+        "name_of_series": backendState['name_of_series'],
+        "retrieved_wiki_of_series": backendState['retrieved_wiki_of_series'],
+        "series_content": backendState['series_content'],
+        "series_description": backendState['series_description'],
+        "name_of_cast": backendState['name_of_cast'],
+        "type_of_cast": backendState['type_of_cast'],
+        "nickname_of_cast": backendState['nickname_of_cast'],
+        "quote_of_cast": backendState['quote_of_cast'],
+        "interesting_fact_of_cast": backendState['interesting_fact_of_cast'],
+        "character_in_series_acted_by_cast": backendState['character_in_series_acted_by_cast'],
+        "demographics_of_target_receiver": backendState['demographics_of_target_receiver'],
+        "base_push_example": backendState['base_push_example'],
+        "local_trend_in_malaysia": backendState['local_trend_in_malaysia'],
+        "include_emoji": backendState['include_emoji'],
+        "include_slangs": backendState['include_slangs'],
+        "additional_requirements": backendState['additional_requirements'],
+    }
+    
     print("___Start Generation___")
-    backendState['pushes'] = generating(backendState)
+    backendState['pushes'] = generating(input_variables)
     
     print("___End of Main Pipeline___")
 
-def finalContentPipe(content, push_number=5, datasets="Viu_datasets"):
+def finalContentPipeline(push_number=5, datasets="Viu_datasets"):
+    
+    content = backendState["name_of_series"]
+    
     print("___Start Handling Data___")
     content_driven_data = data.getContentDrivenData(content, datasets)
 
@@ -137,12 +166,31 @@ def finalContentPipe(content, push_number=5, datasets="Viu_datasets"):
             
     retrieved_wiki_of_series = retriever.wiki_content_retrieving(vectorstore, content_driven_data["series_name"])
     
+    backendState['number_of_push_notifications'] = push_number
+    backendState['name_of_series'] = content_driven_data["series_name"]
+    backendState['retrieved_wiki_of_series'] = retrieved_wiki_of_series
+    backendState['series_content'] = answers[0]
+    backendState['series_description'] = content_driven_data["series_description"]
+    
     input_variables = {
-        "number_of_push_notifications": push_number,
-        "name_of_series": content_driven_data["series_name"],
-        "retrieved_wiki_of_series": retrieved_wiki_of_series,
-        "series_content": answers[0], 
-        "series_description": content_driven_data["series_description"],
+        "type_of_push_notification": backendState['type_of_push_notification'],
+        "number_of_push_notifications": backendState['number_of_push_notifications'],
+        "name_of_series": backendState['name_of_series'],
+        "retrieved_wiki_of_series": backendState['retrieved_wiki_of_series'],
+        "series_content": backendState['series_content'],
+        "series_description": backendState['series_description'],
+        "name_of_cast": backendState['name_of_cast'],
+        "type_of_cast": backendState['type_of_cast'],
+        "nickname_of_cast": backendState['nickname_of_cast'],
+        "quote_of_cast": backendState['quote_of_cast'],
+        "interesting_fact_of_cast": backendState['interesting_fact_of_cast'],
+        "character_in_series_acted_by_cast": backendState['character_in_series_acted_by_cast'],
+        "demographics_of_target_receiver": backendState['demographics_of_target_receiver'],
+        "base_push_example": backendState['base_push_example'],
+        "local_trend_in_malaysia": backendState['local_trend_in_malaysia'],
+        "include_emoji": backendState['include_emoji'],
+        "include_slangs": backendState['include_slangs'],
+        "additional_requirements": backendState['additional_requirements'],
     }
     
     print("___Start Generation___")
