@@ -11,7 +11,7 @@ export const TestPage = () => {
     const inputData = {
       push_type: "cast-driven",
       series_name: "Nothing Uncovered",
-      cast_name: "Kim Ha-Nuel",
+      cast_name: "KIM Ha Neul",
       creativity: 0.2,
       demographics: [18, 35],
       isEmojis: true,

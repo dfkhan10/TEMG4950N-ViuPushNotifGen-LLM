@@ -11,9 +11,6 @@ from utils.state import backendState
 from pipeline import rerankingRAG
 import pprint
 
-#llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
-llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
-
 def generating(input_var):
     llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
 
@@ -30,7 +27,7 @@ def generating(input_var):
         print(push)
         push = json_parser.extract_json_from_string(push)
     print('After Slanging: ')
-    print(push)
+    print(type(push))
 
     return push
 
@@ -124,9 +121,12 @@ def finalCastPipeline(push_number=5, datasets="Viu_datasets"):
     }
     
     print("___Start Generation___")
-    backendState['pushes'] = generating(input_variables)
-    
+    pushes = generating(input_variables)
+    backendState['pushes'] = pushes
+    print(backendState)
+    print(pushes)
     print("___End of Main Pipeline___")
+    return pushes
 
 def finalContentPipeline(push_number=5, datasets="Viu_datasets"):
     
@@ -198,8 +198,8 @@ def finalContentPipeline(push_number=5, datasets="Viu_datasets"):
     
     print("___Start Generation___")
     backendState['pushes'] = generating(input_variables)
-    
     print("___End of Pipeline___")
+    return backendState['pushes']
 
 def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
 

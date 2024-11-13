@@ -13,11 +13,14 @@ def extract_json_from_string(input_string):
         # Replace single quotes with double quotes
         json_str = re.sub(r"(?<=\{)\'|\'(?=\})|(?<=: )\'|\'(?=,)|(?<=, )\'|\'(?=:)|(?<=\{)\'|\'(?=\})", '"', json_str)
         
-        # Check if the last 3 characters are not '}}}'
-        # if not json_str.endswith('}}}'):
-        #     # Calculate how many '}' are needed
-        #     missing_braces = 3 - json_str.count('}', -3)
-        #     json_str += '}' * missing_braces
+        # Check if the number of opening and closing braces are equal
+        open_brace_count = json_str.count('{')
+        close_brace_count = json_str.count('}')
+        
+        if open_brace_count > close_brace_count:
+            # Calculate how many '}' are needed
+            missing_braces = open_brace_count - close_brace_count
+            json_str += '}' * missing_braces
         
         parsed_json = json.loads(json_str)
         

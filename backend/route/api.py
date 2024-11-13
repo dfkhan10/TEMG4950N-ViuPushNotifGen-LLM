@@ -45,6 +45,8 @@ async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
       if backendState["type_of_push_notification"] == "cast-driven":
          print("cast-driven")
          pushes = finalCastPipeline()
+         print("HAVE PUSH HERE")
+         print(pushes)
       else:
          print("content-driven")
          pushes = finalContentPipeline() 
