@@ -12,3 +12,4 @@ langgraph
 openpyxl
 scrapy
 Pillow
+pyown

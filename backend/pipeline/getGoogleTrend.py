@@ -22,6 +22,15 @@ def get_trend_search(trend):
     #print(result)
     return result
 
+def get_website(url):
+
+    loader = WebBaseLoader(url)
+    docs = loader.load()
+
+    return docs[0]
+
 # input = get_coutry_daily_trending('malaysia').iloc[:,0].tolist()
 
-# print(get_trend_search('Song Jae Rim'))
+# search = get_trend_search('Song Jae Rim')
+
+# print(get_website(search[1]['link']))

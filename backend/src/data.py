@@ -46,7 +46,7 @@ def getMalayData(datasets):
 
     return filtered_meta
 
-def getCastDrivenData(cast, datasets):
+def getCastDrivenData(cast, series, datasets):
     
     content_meta_df, content_des_df = excelToPandas(datasets)
     
@@ -68,9 +68,13 @@ def getCastDrivenData(cast, datasets):
         return None
 
     #choose a random series
-    random_series_idx = random.randint(0, len(common_id) - 1)
-    series = meta[(meta["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
-    episodes = dess[(dess["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
+    # random_series_idx = random.randint(0, len(common_id) - 1)
+    # series = meta[(meta["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
+    # episodes = dess[(dess["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
+
+    #selected series & episodes
+    selected_series_id = meta.iloc[0]['EXTERNAL_SERIES_ID']
+    episodes = dess[dess['EXTERNAL_SERIES_ID'] == selected_series_id]
     
     #choose a random episode
     random_episode_idx = random.randint(0, len(episodes) - 1)
