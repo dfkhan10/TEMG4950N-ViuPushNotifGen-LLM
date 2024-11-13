@@ -32,6 +32,11 @@ def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
     print("___Start Handling Data___")
     cast_driven_data = data.getCastDrivenData(cast, datasets)
 
+    if cast_driven_data == None:
+        print("Sorry but I don't have related information \n")
+        print("---TERMINATED---")
+        return
+
     print("___Start Loading___")
     series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"]) #empty link
     cast_wiki = loader.wikiLoading(cast)
