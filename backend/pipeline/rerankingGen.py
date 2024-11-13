@@ -9,22 +9,23 @@ from utils import prompts, questions
 from pipeline import rerankingRAG
 import pprint
 
-#llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
-llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
+llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
+#llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
 
 def generating(input_var):
 
     chain = prompts.final_prompt | llm | JsonOutputParser()
     push = chain.invoke(input_var)
     
-    print('Before Slanging: ')
+    #print('Before Slanging: ')
     print(push)
 
     if input_var.get('include_slangs', False):
         push = slanger.rephrase(push)
+
+        print('After Slanging: ')
+        print(push)
     
-    print('After Slanging: ')
-    print(push)
 
     return push
 
@@ -153,7 +154,7 @@ def finalContentPipe(content, push_number=5, datasets="Viu_datasets"):
 def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
 
     print("___Start Handling Data___")
-    cast_driven_data = data.getCastDrivenData(cast, datasets)
+    cast_driven_data = data.getCastDrivenData(cast, 'Nothing Uncovered',datasets)
 
     if cast_driven_data == None:
         print("Sorry but I don't have related information \n")
@@ -161,7 +162,7 @@ def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
         return
 
     print("___Start Loading___")
-    series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"]) #empty link
+    series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"])
     cast_wiki = loader.wikiLoading(cast)
     
     print("___Start Splitting___")
@@ -206,7 +207,7 @@ def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
         "base_push_example": None,
         "local_trend_in_malaysia": None, #"Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
         "include_emoji": True,
-        "include_slangs": True,
+        "include_slangs": False,
         "additional_requirements": None,
     }
     

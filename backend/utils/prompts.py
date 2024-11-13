@@ -108,7 +108,10 @@ final_prompt = FewShotPromptTemplate(
     "3": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
     ...
     }}
-    Do not include anything else other than the JSON, or the output will be invalid.""",
+    Never include anything else other than the JSON, 
+    Never include descriptions or commments in the output, infront JSON or after JSON, 
+    else the output will be invalid.""",
+    
     input_variables=[
         "type_of_push_notification",
         "number_of_push_notifications",
