@@ -99,6 +99,57 @@ def finalCastPipeline(cast, push_number=5, datasets="Viu_datasets"):
     
     print("___End of Main Pipeline___")
 
+def finalContentPipe(content, push_number=5, datasets="Viu_datasets"):
+    print("___Start Handling Data___")
+    content_driven_data = data.getContentDrivenData(content, datasets)
+
+    if content_driven_data == None:
+        print("Sorry but I don't have related information \n")
+        print("---TERMINATED---")
+        return
+
+    print("___Start Loading___")
+    series_wiki = loader.webLoading(content_driven_data["series_wiki_url"])
+    cast_wiki = loader.wikiLoading(content)
+    
+    print("___Start Splitting___")
+    splitted_wiki = splitter.splitting([series_wiki, cast_wiki])
+    
+    print("___Start Embedding___")
+    vectorstore = embedder.embedding(splitted_wiki, content)
+
+    print("___Start Retrieval___")
+    answers = []
+    question_list = questions.content_driven_questions(content_driven_data["series_name"])
+    for question in question_list:
+        inputs = {"question": question, "vectorstore": vectorstore, "retry_count": 0}
+        for output in rerankingRAG.retrieval_RAG_pipeline.stream(inputs):
+            for key, value in output.items():
+                pprint.pprint(f"Finished running: {key}:")
+        try:
+            answers.append(value["generation"])
+        except KeyError:
+            print("Sorry but I don't have related information \n")
+            print("---END OF PROCESS: EXCEED TIME LIMIT---")
+    if len(answers) == 1:
+        for _ in range(4):
+            answers.append(None)
+            
+    retrieved_wiki_of_series = retriever.wiki_content_retrieving(vectorstore, content_driven_data["series_name"])
+    
+    input_variables = {
+        "number_of_push_notifications": push_number,
+        "name_of_series": content_driven_data["series_name"],
+        "retrieved_wiki_of_series": retrieved_wiki_of_series,
+        "series_content": answers[0], 
+        "series_description": content_driven_data["series_description"],
+    }
+    
+    print("___Start Generation___")
+    backendState['pushes'] = generating(input_variables)
+    
+    print("___End of Pipeline___")
+
 def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
 
     print("___Start Handling Data___")
