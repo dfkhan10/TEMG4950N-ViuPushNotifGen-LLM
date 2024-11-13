@@ -2,14 +2,14 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-cast = 'KIM Ha Neul'
+cast = 'Hu Yi Xuan'
 viu_datasets = "Viu_datasets"
 
 # from pipeline.pipeline import castDrivenPipeline
 # castDrivenPipeline(cast, push_number = 5)
 
-from pipeline import genPush
-genPush.testingPipeline(cast, push_number = 5)
+#from pipeline import genPush
+#genPush.testingPipeline(cast, push_number = 5)
 
 #from pipeline.pipeline import contentDrivenPipeline
 #contentDrivenPipeline('Nothing Uncovered', push_number = 5)
@@ -19,6 +19,20 @@ genPush.testingPipeline(cast, push_number = 5)
 
 from pipeline import rerankingGen
 rerankingGen.simplifiedCastPipe(cast, push_number = 1)
+
+# from node import slanger
+# json_data = {
+#     "english": {
+#         "title": "KIM Ha Neul's Life Turned Upside Down! 🤯",
+#         "body": "The queen of romantic comedies is now a murder suspect? 🤔 Don't believe it! Watch Nothing Uncovered to uncover the truth behind the scandal! 💥 #KimHaNeul #NothingUncovered"
+#     },
+#     "malay": {
+#         "title": "Kehidupan KIM Ha Neul Terbalik! 🤯",
+#         "body": "Ratu komedi romantik kini menjadi suspek pembunuhan? 🚔️ Jangan percayya! Tonton Nothing Uncovered untuk mengungkapkan kebenaran di sebalik skandal! 💥 #KimHaNeul #NothingUncovered"
+#     }
+# }
+# print(slanger.rephrase(json_data))
+
 #rerankingGen.simplifiedContentPipe('Nothing Uncovered', push_number = 1)
 
 # from node import save
@@ -58,3 +72,17 @@ rerankingGen.simplifiedCastPipe(cast, push_number = 1)
 # # Save the JSON data to CSV
 # save.save_to_csv(json_data, 'utils\history.csv')
 # save.update_examples(inp, json_data)
+
+from pipeline import getGoogleTrend
+import time
+#from node import classifier
+trends = getGoogleTrend.get_coutry_daily_trending('malaysia').iloc[:,0].tolist()
+snippet_list = []
+search_list = []
+for trend in trends:
+    search = getGoogleTrend.get_trend_search(trend)
+    snippet_list.append(search[0]['snippet'])
+    search_list.append(search[0])
+    time.sleep(1)
+
+print(type(snippet_list))

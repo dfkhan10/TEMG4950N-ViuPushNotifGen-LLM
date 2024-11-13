@@ -1,6 +1,14 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
-from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.output_parsers import StrOutputParser
+
+# from dotenv import load_dotenv
+
+# load_dotenv(override=True)
+
+# import os
+# api_key = os.getenv("OPENAI_API_KEY")
+# print("API Key Loaded:", api_key is not None)
 
 llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0)
 

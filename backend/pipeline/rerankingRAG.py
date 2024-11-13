@@ -2,7 +2,7 @@ from typing import List
 from langchain_pinecone import PineconeVectorStore
 from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
-from node import retriever, grader, generator, rewriter
+from node import retriever, grader, generator
 
 class GraphState(TypedDict):
     vectorstore: PineconeVectorStore

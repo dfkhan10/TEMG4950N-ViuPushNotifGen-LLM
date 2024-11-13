@@ -24,7 +24,7 @@ def getSeriesEpisodeMatch(serie_database, episode_database, language):
 
     common_id = serie_extrernal_id.intersection(episode_extrernal_id)  
     
-    print(list(common_id))
+    #print(list(common_id))
     
     return list(common_id)  
 
@@ -42,6 +42,8 @@ def getMalayData(datasets):
     
     filtered_meta = meta[meta['EXTERNAL_SERIES_ID'].isin(common_id)]
     
+    filtered_meta.to_json('malay_meta.json', orient='records', lines=True)
+
     return filtered_meta
 
 def getCastDrivenData(cast, datasets):
@@ -62,6 +64,9 @@ def getCastDrivenData(cast, datasets):
     
     common_id = getSeriesEpisodeMatch(meta, dess, "Malaysia")
     
+    if len(common_id) == 0:
+        return None
+
     #choose a random series
     random_series_idx = random.randint(0, len(common_id) - 1)
     series = meta[(meta["EXTERNAL_SERIES_ID"] == common_id[random_series_idx])]
