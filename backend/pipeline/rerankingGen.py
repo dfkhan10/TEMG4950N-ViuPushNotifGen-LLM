@@ -9,7 +9,8 @@ from utils import prompts, questions
 from pipeline import rerankingRAG
 import pprint
 
-llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
+#llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.4)
+llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
 
 def generating(input_var):
 
@@ -26,6 +27,77 @@ def generating(input_var):
     print(push)
 
     return push
+
+from main import backendState
+def finalCastPipeline(cast, push_number=5, datasets="Viu_datasets"):
+    print("___Start Handling Data___")
+    cast_driven_data = data.getCastDrivenData(cast, backendState['name_of_series'], datasets)
+
+    if cast_driven_data == None:
+        print("Sorry but I don't have related information \n")
+        print("---TERMINATED---")
+        return
+
+    print("___Start Loading___")
+    series_wiki = loader.webLoading(cast_driven_data["series_wiki_url"])
+    cast_wiki = loader.wikiLoading(cast)
+    
+    print("___Start Splitting___")
+    splitted_wiki = splitter.splitting([series_wiki, cast_wiki])
+    
+    print("___Start Embedding___")
+    vectorstore = embedder.embedding(splitted_wiki, cast)
+
+    print("___Start Retrieval___")
+    answers = []
+    question_list = questions.cast_driven_questions(cast_driven_data["series_name"], cast_driven_data["target_cast"])
+    for question in question_list:
+        inputs = {"question": question, "vectorstore": vectorstore, "retry_count": 0}
+        for output in rerankingRAG.retrieval_RAG_pipeline.stream(inputs):
+            for key, value in output.items():
+                pprint.pprint(f"Finished running: {key}:")
+        try:
+            answers.append(value["generation"])
+        except KeyError:
+            print("Sorry but I don't have related information \n")
+            print("---END OF PROCESS: EXCEED TIME LIMIT---")
+    if len(answers) == 1:
+        for _ in range(4):
+            answers.append(None)
+            
+    retrieved_wiki_of_series = retriever.wiki_retrieving(vectorstore, cast, cast_driven_data["series_name"])
+    
+    # backendState = {
+    #     "number_of_push_notifications": push_number,
+    #     "name_of_series": cast_driven_data["series_name"],
+    #     "retrieved_wiki_of_series": retrieved_wiki_of_series,
+    #     "series_content": answers[0], 
+    #     "series_description": cast_driven_data["series_description"],
+    #     "name_of_cast": cast_driven_data["target_cast"],
+    #     "type_of_cast": cast_driven_data["target_cast_type"],
+    #     "nickname_of_cast": answers[1],
+    #     "quote_of_cast": answers[2],
+    #     "interesting_fact_of_cast": answers[3],
+    #     "character_in_series_acted_by_cast": answers[4],
+    # }
+
+    # change backendstate
+    backendState['number_of_push_notifications'] = push_number
+    backendState['name_of_series'] = cast_driven_data["series_name"]
+    backendState['retrieved_wiki_of_series'] = retrieved_wiki_of_series
+    backendState['series_content'] = answers[0]
+    backendState['series_description'] = cast_driven_data["series_description"]
+    backendState['name_of_cast'] = cast_driven_data["target_cast"]
+    backendState['type_of_cast'] = cast_driven_data["target_cast_type"]
+    backendState['nickname_of_cast'] = answers[1]
+    backendState['quote_of_cast'] = answers[2]
+    backendState['interesting_fact_of_cast'] = answers[3]
+    backendState['character_in_series_acted_by_cast'] = answers[4]
+    
+    print("___Start Generation___")
+    backendState['pushes'] = generating(backendState)
+    
+    print("___End of Main Pipeline___")
 
 def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
 
