@@ -27,13 +27,20 @@ def rephrase(push):
         template = """You are an assistant that enhances text by incorporating local slang and short forms.
         Below is a set of push notifications in JSON format and a list of slang or shortform. Your task is to enhance only the Malay versions of 
         the notifications by adding appropriate slang and short forms while keeping the English versions and the 
-        overall JSON structure intact. You must always return valid JSON without any additional text.
+        overall JSON structure intact. 
+        
+        Never overshoot the slang and short forms, only add them if they are appropriate.
+
+        Never change the emojis or the hashtags in the push notifications.
+
+        You must always return valid JSON formatted with double quotes and without any additional text.
         Here is the push notifications in JSON: {pushes}
         \n\n
         Here are some slang: {slangs}
         Here are some shortform: {shortforms}
 
-        The output format have to be JSON as follows with all double quotation marks not signle quotation marks!:
+        Use escape characters for quotes if there is in the JSON strings.
+        The output format have to be JSON as follows! The number is the push number:
         {{
         "1": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},
         "2": {{"english": {{"title": "title", "body": "body"}}, "malay": {{"title": "title", "body": "body"}}}},

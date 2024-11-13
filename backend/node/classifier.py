@@ -2,9 +2,9 @@ from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
 from langchain_core.output_parsers import StrOutputParser
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv(override=True)
+load_dotenv(override=True)
 
 # import os
 # api_key = os.getenv("OPENAI_API_KEY")
@@ -34,7 +34,7 @@ def classifying(trend_titles):
         template=(
             "You are a classifier that determines whether a title refers to a star or a TV show series. "
             "Classify the following title:\n\n"
-            "Title: {title}\n\n"
+            "Title/snippet: {title}\n\n"
             "Respond with 'star' if it refers to a star, 'TV show' if it refers to a TV show series, "
             "or 'none' if it refers to neither."
         ),
