@@ -23,6 +23,7 @@ from pipeline.getSrapedTrendItem import run_weirdkaya_trend_spider
 from pipeline.getScrapedItem import run_spiders
 from pipeline.getAllScrapedItem import run_all_spiders
 from pipeline.getScrapedWarningItem import run_weather_warning_spider
+from node.Holiday_classifier import check_holiday_status
 if __name__ == "__main__":
     # scraped_data1 = run_holiday_spider()
     # scraped_data2 = run_weirdkaya_trend_spider()
@@ -34,11 +35,13 @@ if __name__ == "__main__":
     # print(scraped_data)
     holiday_dict = scraped_data['holidays']
     trend_title = scraped_data['trends']['trend']
-    print("main scraped data:")
-    print("hodidays: ")
-    print(holiday_dict)
-    print("trend: ")
-    print(trend_title)
+    Today_holiday, Upcoming_holiday, Error_holiday = check_holiday_status(holiday_dict)
+    print(Today_holiday, Upcoming_holiday, Error_holiday)
+    # print("main scraped data:")
+    # print("hodidays: ")
+    # print(holiday_dict)
+    # print("trend: ")
+    # print(trend_title)
 
     # run_weather_warning_spider()
 
