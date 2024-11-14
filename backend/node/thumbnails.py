@@ -43,7 +43,7 @@ def retrieve_thumbnail(data_idx, path):
     - path (str): The path to the folder containing the thumbnails.
 
     Returns:
-    - list: A list of paths to the matching PNG files.
+    - list: A list of PNG files.
     """
 
     matching_images = []
