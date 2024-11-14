@@ -6,25 +6,52 @@ from utils.state import backendState
 
 api_router = APIRouter()
 
-@api_router.get("/scrapeTrends")
-async def get_trend() -> dict:
-   try:
-      # scrape trend function
-      # return pushes
-      return {}
-   except Exception as e:
-      print(e)
-      raise e
+# @api_router.get("/viuData")
+# async def get_viu_data() -> dict:
+#    from main import malayData
+#    try:
+#       # return malayData.to_dict(orient='records')
+#       return [
+#          {
+#             "title": "Title 1",
+#             "body": "Body of the first item."
+#          },
+#          {
+#             "title": "Title 2",
+#             "body": "Body of the second item."
+#          }
+#       ]
+#    except Exception as e:
+#       print(e)
+#       raise e
 
-@api_router.post("/scrapeTrends")
-async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> dict:
-   try:
-      # scrape trend function
-      # return pushes
-      return {}
-   except Exception as e:
-      print(e)
-      raise e
+# @api_router.get("/thumbnails")
+# async def get_thumbnails() -> List[UploadFile]:
+#    try:
+#       return None ## return get thumbnails
+#    except Exception as e:
+#       print(e)
+#       raise e
+
+# @api_router.get("/scrapeTrends")
+# async def get_trend() -> dict:
+#    try:
+#       # scrape trend function
+#       # return pushes
+#       return {}
+#    except Exception as e:
+#       print(e)
+#       raise e
+
+# @api_router.post("/scrapeTrends")
+# async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> dict:
+#    try:
+#       # scrape trend function
+#       # return pushes
+#       return {}
+#    except Exception as e:
+#       print(e)
+#       raise e
 
 @api_router.post("/genPush")
 async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
