@@ -16,7 +16,7 @@ def generating(input_var):
     chain = prompts.final_prompt | llm | JsonOutputParser()
     push = chain.invoke(input_var)
       
-    print(push)
+    pprint(push)
 
 
 def testingPipeline(cast, push_number, datasets = "Viu_datasets"):
