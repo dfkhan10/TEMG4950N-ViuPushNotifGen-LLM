@@ -44,7 +44,7 @@ export const TestPage = () => {
     setMessage(JSON.stringify(data, null, 2));
   };
 
-  const [activeButton, setActiveButton] = useState('generator'); // State for the Active page
+  const [activeButton, setActiveButton] = useState('audit'); // State for the Active page
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
