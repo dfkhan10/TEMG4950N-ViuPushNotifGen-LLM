@@ -17,7 +17,7 @@ Holidays = {'1 Jan': 'New Year’s Day', '14 Jan': 'YDPB Negeri Sembilan’s Bir
             '31 Aug': 'Merdeka Day', '16 Sep': 'Prophet Muhammad’s Birthday', '17 Sep': 'Malaysia Day Holiday', 
             '29 Sep': 'Sultan of Kelantan’s Birthday', '30 Sep': 'Sultan of Kelantan’s Birthday Holiday', 
             '5 Oct': 'Sabah Governor’s Birthday', '12 Oct': 'Sarawak Governor’s Birthday', '31 Oct': 'Deepavali', 
-            '1 Nov': 'Sultan of Perak’s Birthday', '13 Nov': 'testing', '15 - 16 Nov': 'testing2', 
+            '1 Nov': 'Sultan of Perak’s Birthday', '14 Nov': 'testing', '15 - 16 Nov': 'testing2', 
             '11 Dec': 'Sultan of Selangor’s Birthday', 
             '24 Dec': 'Christmas Eve', '25 Dec': 'Christmas Day'}
 
@@ -25,57 +25,74 @@ Holidays = {'1 Jan': 'New Year’s Day', '14 Jan': 'YDPB Negeri Sembilan’s Bir
 def check_holiday_status(holidays):
     today = datetime.now().strftime('%d %b')
     today_date = datetime.now()
+    today_holiday = {}
     upcoming_holidays = {}
+    Error_date = {}
 
-    print("today: ", today)
-    print("today_date: ", today_date)
+    # print("today: ", today)
+    # print("today_date: ", today_date)
 
     for date, holiday_name in holidays.items():
 
         if '-' in date:
-            start_date_str, end_date_str = date.split('-')
-            start_date_str = start_date_str + " " + date[-3:]
-            print("start_date_str: ", start_date_str)
-            print("end_date_str: ", end_date_str)
-            start_date = datetime.strptime(start_date_str, '%d %b')
-            start_date = start_date.replace(year=datetime.now().year)
+            try:
+                start_date_str, end_date_str = date.split('-')
+                start_date_str = start_date_str + " " + date[-3:]
+                # print("start_date_str: ", start_date_str)
+                # print("end_date_str: ", end_date_str)
+                start_date = datetime.strptime(start_date_str, '%d %b')
+                start_date = start_date.replace(year=datetime.now().year)
 
-            if end_date_str[0] == ' ': #When '7 - 8 Jul', sfter  strip, end_date will become ' 8 Jul', not '8 Jul', which will cause error in end_date = datetime.strptime(end_date_str, '%d %b') if no space in front of '%d %b'
-                end_date = datetime.strptime(end_date_str, ' %d %b')
-            else:
-                end_date = datetime.strptime(end_date_str, '%d %b')
-            end_date = end_date.replace(year=datetime.now().year)
-            print("start_date: ", start_date)
-            print("end_date: ", end_date)
+                if end_date_str[0] == ' ': #When '7 - 8 Jul', sfter  strip, end_date will become ' 8 Jul', not '8 Jul', which will cause error in end_date = datetime.strptime(end_date_str, '%d %b') if no space in front of '%d %b'
+                    end_date = datetime.strptime(end_date_str, ' %d %b')
+                else:
+                    end_date = datetime.strptime(end_date_str, '%d %b')
+                end_date = end_date.replace(year=datetime.now().year)
+                # print("start_date: ", start_date)
+                # print("end_date: ", end_date)
 
-            # if start_date <= today <= end_date:
-            #     return f"Today is {holiday_name}"
+                days_until_holiday = (start_date - today_date).days
+                days_to_end_date = (end_date - today_date).days
+                                
+                # print("days_until_holiday: ", days_until_holiday)
+                # print("days_to_end_date: ", days_to_end_date)
+                # print("today_date", today_date)
+                if days_until_holiday < 0 and days_to_end_date >= 0:
+                    today_holiday[date] = holiday_name
+
+                if 0 <= days_until_holiday <= 7:
+                    upcoming_holidays[date] = holiday_name
+            except:
+                Error_date[date] = holiday_name
+                continue
 
         else: 
-            print('data: ', date)
+            # print('data: ', date)
             # print('-' in date)
             # if date == today:
             #     return f"Today is {holiday_name}"
             
-            holiday_date = datetime.strptime(date, '%d %b')
-            holiday_date = holiday_date.replace(year=datetime.now().year)
-            
-            days_until_holiday = (holiday_date - today_date).days
-            print(days_until_holiday)
-            
-            if 0 < days_until_holiday <= 7:
-                upcoming_holidays[date] = holiday_name
+            try:
+                holiday_date = datetime.strptime(date, '%d %b')
+                holiday_date = holiday_date.replace(year=datetime.now().year)
+                
+                days_until_holiday = (holiday_date - today_date).days
+                # print(days_until_holiday)
+                
+                if days_until_holiday == -1:
+                    today_holiday[date] = holiday_name
+                elif 0 <= days_until_holiday <= 7:
+                    upcoming_holidays[date] = holiday_name
+            except:
+                Error_date[date] = holiday_name
+                continue
 
-    if upcoming_holidays:
-        upcoming_holiday_str = ', '.join([f"{holiday_name} is coming soon" for holiday_name in upcoming_holidays.values()])
-        return upcoming_holiday_str
-
-    return "No upcoming holidays within the next 7 days"
+    return today_holiday, upcoming_holidays, Error_date
 
 
 
-check_holiday_status(Holidays)
-
+# Today_holiday, Upcoming_holiday, Error_holiday = check_holiday_status(Holidays)
+# print(Today_holiday, Upcoming_holiday, Error_holiday)
 
 
 
