@@ -1,10 +1,10 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
-from langchain_core.output_parsers import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 
 from dotenv import load_dotenv
 
-# load_dotenv(override=True)
+load_dotenv(override=True)
 
 # import os
 # api_key = os.getenv("OPENAI_API_KEY")
@@ -30,31 +30,52 @@ scraped_data = ['M’sian Woman Celebrates Girl’s Birthday After Hearing She H
 
 def classifying(trend_titles):
     Query_prompt = PromptTemplate(
-        input_variables=["title"],
-        template=(
-            "You are a classifier that determines whether a title refers to a star or a TV show series. "
-            "Classify the following title:\n\n"
-            "Title: {title}\n\n"
-            "Respond with 'star' if it refers to a star, 'TV show' if it refers to a TV show series, "
-            "or 'none' if it refers to neither."
-        ),
+        input_variables=["title", "cast", "series", "description"],
+        template=("""
+            You are a classifier that determines the usefulness of a trend title for promoting TV shows and series in push notifications. 
+
+            These are the information json of the series and corresponding cast:
+            
+            star: {cast}
+            series: {series}
+            series_description: {description}
+
+            Classify the following title:
+
+            Title: {title}
+
+            Classify the title into one of the following categories: (Dont be harsh)
+
+            - **None**: This is not an internet trend and cannot use to catch people eyeballs, DONT INCLUDE ANY INTERESTING NEWS THAT CAN CATCH PEOPLE ATTENTION TO THIS CATEGORY.
+            - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
+            - **Series**: The trend relates to the series content description, such that would be useful to support the series content promotion.
+            - **Star and Series**: The trend involves both a star and a series, making it useful for both types of push notifications.
+            - **General**: The trend is related to a general topic (e.g. weather, festivals, hot trends slang or headlines) and is useful for any push notification, but not specifically tied to stars or series.
+
+            Return the classification type and the trend title in JSON format as follows: 
+            {{classification_type: trend_title}}
+        """),
     )
 
-    classifying_chain = Query_prompt | llm | StrOutputParser()
+    classifying_chain = Query_prompt | llm | JsonOutputParser()
 
     print("___Classifying___")
+    
+    cast = 'Kim Ha Nuel'
+    series = 'Nothing Uncovered'
+    description = "A korean series about a girl working hard to get into the kpop industry, bringing the best song to everyone!"
 
     results = {}
     print(trend_titles)
     for title in trend_titles:
-        response = classifying_chain.invoke({"title": title})
+        response = classifying_chain.invoke({"title": title, "cast": cast, "series": series, "description": description})
         results[title] = response
-   
-    print("THIS IS THE RESPONSE \n", results)
+        print(response)
     return results
 
 # print("THIS IS THE RESPONSE \n", results)
-classifying(scraped_data) # For testing
+def testing():
+    classifying(["ROSÉ & Bruno Mars’ New Song “APT.” Has Been Banned for South Korean Students, Here’s Why!"]) # For testing
 
 
 # results = {'M’sian Woman Celebrates Girl’s Birthday After Hearing She Had No One To Celebrate It With': 'none', 
@@ -72,7 +93,3 @@ classifying(scraped_data) # For testing
 # 'M’sian With RM1.7K Salary Tries To Buy RM163K Honda Civic, Leaves Car Dealer Speechless': 'none',
 # '“Masa Miskin Tak Termimpi Dapat Kereta” – Aliff Syukri Hadiahkan Toyota Vellfire Buat Bonda Rozita.': 'star',
 # '‘Not True’ — Starbucks M’sia Denies It’s Closing Over 100 Outlets Across Country': 'none'} 
-
-
-
-
