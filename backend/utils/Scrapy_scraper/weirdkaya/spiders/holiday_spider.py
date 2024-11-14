@@ -48,7 +48,7 @@ class Holiday_Spider(scrapy.Spider):
             if date:  # Check if date is not None
                 self.date_holiday[date.strip()] = holiday_name.strip()  # Strip any extra whitespace
 
-        yield {'Holidays': self.date_holiday}  # Yield the dictionary of dates
+        yield self.date_holiday  # Yield the dictionary of dates
 
 
 

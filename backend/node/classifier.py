@@ -66,6 +66,7 @@ def classifying(trend_titles):
     description = "A korean series about a girl working hard to get into the kpop industry, bringing the best song to everyone!"
 
     results = {}
+    print(trend_titles)
     for title in trend_titles:
         response = classifying_chain.invoke({"title": title, "cast": cast, "series": series, "description": description})
         results[title] = response
