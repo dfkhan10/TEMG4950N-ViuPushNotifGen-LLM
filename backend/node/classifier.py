@@ -2,7 +2,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
 from langchain_core.output_parsers import StrOutputParser
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 # load_dotenv(override=True)
 
@@ -45,14 +45,16 @@ def classifying(trend_titles):
     print("___Classifying___")
 
     results = {}
+    print(trend_titles)
     for title in trend_titles:
         response = classifying_chain.invoke({"title": title})
         results[title] = response
    
+    print("THIS IS THE RESPONSE \n", results)
     return results
 
 # print("THIS IS THE RESPONSE \n", results)
-classifying(input) # For testing
+classifying(scraped_data) # For testing
 
 
 # results = {'M’sian Woman Celebrates Girl’s Birthday After Hearing She Had No One To Celebrate It With': 'none', 

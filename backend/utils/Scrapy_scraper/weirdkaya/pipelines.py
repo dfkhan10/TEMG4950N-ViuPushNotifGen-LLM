@@ -5,9 +5,10 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+# from itemadapter import ItemAdapter
 
 
-class WeirdkayaPipeline:
-    def process_item(self, item, spider):
-        return item
+# class WeirdkayaPipeline:
+#     def process_item(self, item, spider):
+#         print("item: ", item)
+#         return item
