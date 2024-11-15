@@ -81,32 +81,11 @@ const GenerationPage = () => {
                 {/* First Section (3/5) */}
                 <div className="flex-grow flex flex-col items-start w-3/5 pt-8 pl-16">
 
-                    <div className='flex'>
-                        <div className="pl-8">
-                            {/* Back Button */}
-                            <button className="bg-white text-pink-500 border-2 border-pink-500 text-lg font-bold py-2 px-4 rounded-lg mb-4 hover:bg-pink-100 transition duration-300" onClick={() => navigate('/')}>
-                                Return to Generation Settings
-                            </button>
-                        </div>
-
-                        {/* Language Switch Button */}
-                        <div className="pl-8">
-                            {isEnglish ? (
-                                <button 
-                                    className="bg-white text-blue-500 border-2 border-blue-500 text-lg font-bold py-2 px-4 rounded-lg mb-4 hover:bg-blue-100 transition duration-300" 
-                                    onClick={switchToMalay}
-                                >
-                                    Switch to Malay
-                                </button>
-                            ) : (
-                                <button 
-                                    className="bg-white text-blue-500 border-2 border-blue-500 text-lg font-bold py-2 px-4 rounded-lg mb-4 hover:bg-blue-100 transition duration-300" 
-                                    onClick={switchToEnglish}
-                                >
-                                    Switch to English
-                                </button>
-                            )}
-                        </div>
+                    <div className="pl-8">
+                        {/* Back Button */}
+                        <button className="bg-white text-pink-500 border-2 border-pink-500 text-lg font-bold py-2 px-4 rounded-lg mb-4 hover:bg-pink-100 transition duration-300" onClick={() => navigate('/')}>
+                            Return to Generation Settings
+                        </button>
                     </div>
 
                     {/* Right Section for Columns */}

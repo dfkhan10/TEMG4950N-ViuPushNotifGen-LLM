@@ -12,8 +12,5 @@ langgraph
 openpyxl
 scrapy
 Pillow
-<<<<<<< HEAD:backend/requirements.txt
-=======
 pyown
->>>>>>> e838f33d33c25d0cb687dc2ea0e41e51f65a3960:backend/requirement.txt
 flashrank
