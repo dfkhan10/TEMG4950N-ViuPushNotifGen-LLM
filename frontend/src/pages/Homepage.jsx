@@ -13,14 +13,14 @@ export const Homepage = () => {
   //Call a get api to retrieve viu data for dropdown menus of cast and show
   const [viuDatas, setViuDatas] = useState([])
 
-  const fetchViuData = async () => {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/viuData`);
-    const data = await response.json()
-    console.log(data)
-    setViuDatas(data.key)
-  }
+  // const fetchViuData = async () => {
+  //   const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/viuData`);
+  //   const data = await response.json()
+  //   console.log(data)
+  //   setViuDatas(data.key)
+  // }
 
-  useEffect(() => { fetchViuData() }, [])
+  // useEffect(() => { fetchViuData() }, [])
 
   // State to track the active button
   const [activeButton, setActiveButton] = useState('generator'); // State for the Active page
@@ -203,4 +203,3 @@ export const Homepage = () => {
     </div>
   );
 };
-

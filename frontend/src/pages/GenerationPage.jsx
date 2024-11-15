@@ -5,29 +5,46 @@ import PushNotification from './PushNotification';
 import EditPushNotification from './EditPushNotification';
 
 const GenerationPage = () => {
-    const [activeButton, setActiveButton] = useState('generator'); // State for the Active page
-    const navigate = useNavigate(); // Initialize useNavigate
+    const [activeButton, setActiveButton] = useState('generator');
+    const navigate = useNavigate();
 
-    // Predefined titles and bodies
+    // Predefined titles and bodies in Malay
     const predefinedTitles = [
-        'Kim Na Heul Panas! 🔥',
-        'Drama Panas Kim Na Heul!',
-        'Kim Na Heul Terhangat! 🌟',
-        'Kim Na Heul Bikin Panas!',
-        'Kim Na Heul & Cuaca Panas!'
+        'KIM Ha Neul Panas! 🔥',
+        'Drama Panas KIM Ha Neul!',
+        'KIM Ha Neul Terhangat! 🌟',
+        'KIM Ha Neul Bikin Panas!',
+        'KIM Ha Neul & Cuaca Panas!'
     ];
 
     const predefinedBodies = [
-        'Cuaca panas? Kim Na Heul lagi panas di Nothing Uncovered! Jom tonton sekarang! 🌞',
-        'Kim Na Heul buat hati berdebar di Nothing Uncovered. Jangan ketinggalan! 🌡️',
-        'Cuaca panas, drama lagi panas! Saksikan Kim Na Heul di Nothing Uncovered. 🌞',
-        'Hari panas? Kim Na Heul lagi bikin panas di Nothing Uncovered! Tonton sekarang! 🔥',
-        'Cuaca panas, drama pun panas! Jangan lepaskan Kim Na Heul di Nothing Uncovered. 🌡️'
+        'Cuaca panas? KIM Ha Neul lagi panas di Nothing Uncovered! Jom tonton sekarang! 🌞',
+        'KIM Ha Neul buat hati berdebar di Nothing Uncovered. Jangan ketinggalan! 🌡️',
+        'Cuaca panas, drama lagi panas! Saksikan KIM Ha Neul di Nothing Uncovered. 🌞',
+        'Hari panas? KIM Ha Neul lagi bikin panas di Nothing Uncovered! Tonton sekarang! 🔥',
+        'Cuaca panas, drama pun panas! Jangan lepaskan KIM Ha Neul di Nothing Uncovered. 🌡️'
     ];
 
-    // State management with predefined values
+    // Predefined titles and bodies in English
+    const englishTitles = [
+        'Kim Na Heul is Hot! 🔥',
+        'Hot Drama Kim Na Heul!',
+        'The Hottest Kim Na Heul! 🌟',
+        'Kim Na Heul is Heating Up!',
+        'Kim Na Heul & Hot Weather!'
+    ];
+
+    const englishBodies = [
+        'Hot weather? Kim Na Heul is on fire in Nothing Uncovered! Watch now! 🌞',
+        'Kim Na Heul makes hearts race in Nothing Uncovered. Don’t miss it! 🌡️',
+        'Hot weather, hotter drama! Watch Kim Na Heul in Nothing Uncovered. 🌞',
+        'Hot day? Kim Na Heul is heating things up in Nothing Uncovered! Watch now! 🔥',
+        'Hot weather, hot drama! Don’t miss Kim Na Heul in Nothing Uncovered. 🌡️'
+    ];
+
     const [titles, setTitles] = useState(predefinedTitles);
     const [bodies, setBodies] = useState(predefinedBodies);
+    const [isEnglish, setIsEnglish] = useState(false); // State to track the current language
 
     const handleTitleChange = (index, value) => {
         const newTitles = [...titles];
@@ -39,6 +56,20 @@ const GenerationPage = () => {
         const newBodies = [...bodies];
         newBodies[index] = value;
         setBodies(newBodies);
+    };
+
+    // Function to switch to English
+    const switchToEnglish = () => {
+        setTitles(englishTitles);
+        setBodies(englishBodies);
+        setIsEnglish(true); // Update state to indicate English is active
+    };
+
+    // Function to switch back to Malay
+    const switchToMalay = () => {
+        setTitles(predefinedTitles);
+        setBodies(predefinedBodies);
+        setIsEnglish(false); // Update state to indicate Malay is active
     };
 
     return (
