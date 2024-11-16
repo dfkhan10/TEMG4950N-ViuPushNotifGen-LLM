@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SelectThumbnail from './SelectThumbnail';
-
+// hi
 let expandedNotification = null; // Static variable to track the currently expanded notification
 
 const PushNotification = ({ title, description, imageSrc, appName, iconSrc }) => {

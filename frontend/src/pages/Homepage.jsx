@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import AgeRangeSlider from "./AgeRangeSlider";
 import ContentNameSelector from "./ContentNameSelector";
 import StarNameSelector from './StarNameSelector';
-
+// hi
 const ViuDataContext = React.createContext({
   viuData: [], fetchViudata: () => {}
 })
@@ -26,15 +26,19 @@ export const Homepage = () => {
   // useEffect(() => { fetchViuData() }, [])
 
   // State to track the active button
-  const [activeButton, setActiveButton] = useState('generator'); // State for the Active page
-  const [promotionType, setPromotionType] = useState(''); // State for the Promotion type
-  const [creativity, setCreativity] = useState(0); // State for the creativity slider
+  const [activeButton, setActiveButton] = useState('generator'); 
+  const [promotionType, setPromotionType] = useState(''); 
+  const [creativity, setCreativity] = useState(0); 
   const [age, setAge] = useState([18, 65]);
-  const [starName, setStarName] = useState(''); // State for star name
+  const [starName, setStarName] = useState(''); 
   const [isFormEnabled, setIsFormEnabled] = useState(false);
   const [showTrends, setShowTrends] = useState(true);
   const [selectedContent, setSelectedContent] = useState('');
   const [allSeriesData, setAllSeriesData] = useState([]);
+  const [isEmoji, setIsEmoji] = useState(false);
+  const [isSlang, setIsSlang] = useState(false);
+  const [addRequirements, setAddRequirements] = useState(''); 
+
 
   useEffect(() => {
     // Fetch the JSON data
@@ -143,44 +147,39 @@ export const Homepage = () => {
 
               {/* Star Name Selector */}
               <StarNameSelector selectedContent={selectedContent} allSeriesData={allSeriesData} isCastDriven={isCastDriven} onStarSelect={setStarName}/>
-
-              {/* Star Name
-              <div className="mb-4">
-                <div className="flex">
-                  <label className="block text-sm font-bold text-lg text-gray-700">Star Name</label>
-                  <label className="text-red-400 font-bold text-lg ml-1">*</label>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Enter Star Name"
-                  className="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#F5B919] focus:border-[#F5B919]"
-                  disabled={!promotionType || promotionType === 'content-based'} // Disable if no promotion type is selected or if content-based is selected
-                />
-              </div> */}
-
               <AgeRangeSlider setAge={setAge} />
 
               <div className="flex flex-col">
-                  <ToggleSwitch label="Include Local Lingo?" />
-                  <ToggleSwitch label="Include Emojis?" />
+              <ToggleSwitch 
+                label="Include Local Lingo?" 
+                checked={isSlang} 
+                onChange={() => setIsSlang(!isSlang)} 
+              />
+              <ToggleSwitch 
+                label="Include Emojis?" 
+                checked={isEmoji} 
+                onChange={() => setIsEmoji(!isEmoji)} 
+              />
               </div>
             </div>
 
             {/* Additional Input Field */}
             <div className="flex flex-col w-full mb-4">
-                <label className="block text-sm font-bold text-lg text-gray-700 mb-2">Additional Input</label>
-                <textarea
-                  placeholder="Enter additional information here..."
-                  className="mt-1 block w-full h-60 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#F5B919] focus:border-[#F5B919] p-2"
-                />
-              </div>
+              <label className="block text-sm font-bold text-lg text-gray-700 mb-2">Additional Input</label>
+              <textarea
+                placeholder="Enter additional information here..."
+                value={addRequirements} // Bind the value to the state variable
+                onChange={(e) => setAddRequirements(e.target.value)} // Step 2: Update state on change
+                className="mt-1 block w-full h-60 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-[#F5B919] focus:border-[#F5B919] p-2"
+              />
+            </div>
 
-              {/* Generate Button */}
-              <div className="flex justify-center mb-4">
-                <button className={`bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenerate} >
-                  Generate
-                </button>
-              </div>
+            {/* Generate Button */}
+            <div className="flex justify-center mb-4">
+              <button className={`bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenerate} >
+                Generate
+              </button>
+            </div>
           </div>
         </div>
 

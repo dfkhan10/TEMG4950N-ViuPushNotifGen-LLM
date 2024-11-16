@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+// hi
 const TrendComponent = ({ title, description, imageSrc }) => {
     const [checked, setChecked] = useState(false);
 

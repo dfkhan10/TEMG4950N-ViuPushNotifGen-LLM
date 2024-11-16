@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ReactSlider from 'react-slider';
 
+// hi
+
 const AgeRangeSlider = ({ setAge }) => {
     const [ageRange, setAgeRange] = useState([18, 65]);
 

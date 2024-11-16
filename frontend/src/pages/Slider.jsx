@@ -1,5 +1,5 @@
 import React from 'react';
-
+// hi
 const Slider = ({ value, onChange }) => {
   return ( 
     <div className="flex-grow mb-4"> 
