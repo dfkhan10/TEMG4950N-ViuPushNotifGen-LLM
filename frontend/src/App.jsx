@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Homepage } from "./pages/Homepage";
 import { TestPage } from "./fetch";
-import GenerationPage from "./pages/GenerationPage";
-import ViuDataComponent from "./pages/ViuDataComponent";
+import GenerationPage from './pages/GenerationPage';
 
 function App() {
+  
   return (
     <div>
       <Router>
