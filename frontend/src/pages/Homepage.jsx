@@ -68,7 +68,7 @@ export const Homepage = () => {
       push_type: promotionType, // Use the promotionType state
       series_name: selectedContent, // Use the selectedContent state
       cast_name: starName, // Use the starName state
-      creativity: creativity, // Use the creativity state
+      creativity: creativity/100, // Use the creativity state
       demographics: age, // Use the age state
       isEmojis: isEmoji, // Use the isEmoji state
       isSlangs: isSlang, // Use the isSlang state
