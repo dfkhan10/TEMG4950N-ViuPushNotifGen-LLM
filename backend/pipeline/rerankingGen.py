@@ -13,6 +13,7 @@ import pprint
 
 def generating(input_var):
     llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=backendState['creativity'])
+    #llm = ChatTogether(model="meta-llama/Llama-3-70b-chat-hf", temperature=0.8)
 
     chain = prompts.final_prompt | llm | StrOutputParser()
     push = chain.invoke(input_var)
@@ -204,7 +205,7 @@ def finalContentPipeline(push_number=5, datasets="Viu_datasets"):
 def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
 
     print("___Start Handling Data___")
-    cast_driven_data = data.getCastDrivenData(cast, 'Nothing Uncovered',datasets)
+    cast_driven_data = data.getCastDrivenData(cast, 'Lovely Runner', datasets)
 
     if cast_driven_data == None:
         print("Sorry but I don't have related information \n")
@@ -255,7 +256,7 @@ def simplifiedCastPipe(cast, push_number=1, datasets="Viu_datasets"):
         "character_in_series_acted_by_cast": answers[4],
         "demographics_of_target_receiver": "20-30 years old, fans of cast",
         "base_push_example": None,
-        "local_trend_in_malaysia": None, #"Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
+        "local_trend_in_malaysia": "Kim Hye Yoon, star of Lovely Runner, won the Outstanding Asia Star Award.", #'Tropical Storm Toraji: observatory issues T8 typhoon warning signal', #"Viu is organizing an event inviting Kim Ha Nuel, Lin Tin Wai, and Rong Lam to Malaysia on June10, tickets are all sold out and people are very hyped to it.",
         "include_emoji": True,
         "include_slangs": False,
         "additional_requirements": None,
