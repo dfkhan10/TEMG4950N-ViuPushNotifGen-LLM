@@ -38,7 +38,94 @@ export const Homepage = () => {
   const [isEmoji, setIsEmoji] = useState(false);
   const [isSlang, setIsSlang] = useState(false);
   const [addRequirements, setAddRequirements] = useState(''); 
+  const [englishTitles, setEnglishTitles] = useState([]);
+  const [englishBodies, setEnglishBodies] = useState([]);
+  const [malayTitles, setMalayTitles] = useState([]);
+  const [malayBodies, setMalayBodies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  const [message, setMessage] = useState('');
+
+  const backendUrl = process.env.REACT_APP_BACKEND_URL
+
+  const genPush = async (inputData) => {
+    const response = await fetch(`${backendUrl}/genPush`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputData),
+    });
+    const data = await response.json();
+    console.log(data);
+    return data
+  };
+
+  const navigate = useNavigate();
+
+  const handleGenPush = async () => {
+    const inputData = {
+      push_type: promotionType, // Use the promotionType state
+      series_name: selectedContent, // Use the selectedContent state
+      cast_name: starName, // Use the starName state
+      creativity: creativity, // Use the creativity state
+      demographics: age, // Use the age state
+      isEmojis: isEmoji, // Use the isEmoji state
+      isSlangs: isSlang, // Use the isSlang state
+      addRequirements: addRequirements, // Use the addRequirements state
+      selected_trend: "",
+    };
+  
+    console.log("Sending request data:", JSON.stringify(inputData));
+
+    //Start loading
+    setLoading(true);
+
+    try {
+      const data = await genPush(inputData);
+      setMessage(JSON.stringify(data, null, 2));
+
+      // Initialize arrays to hold the titles and bodies
+      const newEnglishTitles = [];
+      const newEnglishBodies = [];
+      const newMalayTitles = [];
+      const newMalayBodies = [];
+
+      // Iterate over the keys in the response
+      for (const key in data) {
+        if (data[key].english) {
+          newEnglishTitles.push(data[key].english.title);
+          newEnglishBodies.push(data[key].english.body);
+        }
+        if (data[key].malay) {
+          newMalayTitles.push(data[key].malay.title);
+          newMalayBodies.push(data[key].malay.body);
+        }
+      }
+
+      // Update state with the new values
+      setEnglishTitles(newEnglishTitles);
+      setEnglishBodies(newEnglishBodies);
+      setMalayTitles(newMalayTitles);
+      setMalayBodies(newMalayBodies);
+
+      navigate('/generation', {
+        state: {
+          englishTitles: newEnglishTitles,
+          englishBodies: newEnglishBodies,
+          malayTitles: newMalayTitles,
+          malayBodies: newMalayBodies,
+        },
+      });
+  
+    } catch (error) {
+      console.error("Error generating push:", error);
+      setMessage("An error occurred while generating the push.");
+    } finally {
+      // Stop loading
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Fetch the JSON data
@@ -57,12 +144,6 @@ export const Homepage = () => {
 
   const handleContentSelection = (content) => {
     setSelectedContent(content);
-  };
-
-  const navigate = useNavigate();
-
-  const handleGenerate = () => {
-    navigate('/generation'); 
   };
 
   // Function to handle refresh trends logic
@@ -102,6 +183,14 @@ export const Homepage = () => {
   return (
     <div className="h-screen flex flex-col">
     <Header activeButton={activeButton} handleButtonClick={handleButtonClick} />
+    {loading && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-[#F5B919] border-t-transparent mx-auto mb-4"></div>
+          <p className="text-lg font-semibold">Generating...</p>
+        </div>
+      </div>
+    )}
     
     {/* Main Content Area */}
     <div className="flex flex-grow bg-[#F5F5F5]">
@@ -176,7 +265,7 @@ export const Homepage = () => {
 
             {/* Generate Button */}
             <div className="flex justify-center mb-4">
-              <button className={`bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenerate} >
+              <button className={`bg-[#F5B919] w-full text-3xl text-black font-bold py-3 px-6 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenPush} >
                 Generate
               </button>
             </div>
