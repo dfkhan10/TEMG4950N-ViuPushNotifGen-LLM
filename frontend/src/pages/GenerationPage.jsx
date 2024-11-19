@@ -100,10 +100,10 @@ const GenerationPage = () => {
                 </div>
 
                 {/* Vertical Line Separator */}
-                <div className="w-1 bg-gray-300 my-10"></div>
+                <div className="w-1 bg-gray-300 my-10 ml-5"></div>
 
                 {/* Second Section (2/5) */}
-                <div className="flex flex-col justify-center items-center w-2/5">
+                <div className="flex flex-col justify-center items-center w-2/5 mt-10">
                     <div className="flex items-start">
                         <h2 className="text-2xl font-bold">Push Notifications</h2>
                     </div>

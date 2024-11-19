@@ -273,29 +273,31 @@ export const Homepage = () => {
         </div>
 
         {/* Vertical Line Separator */}
-        <div className="w-1 bg-gray-300 my-10"></div>
+        <div className="w-1 bg-gray-300 my-10 mr-10"></div>
 
         {/* Second Section (2/5) */}
-        <div className="flex flex-col justify-center items-center w-2/5">
-          <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-bold">Trends</h2>
+        <div className="flex flex-col justify-center items-center w-2/5 mt-10 mb-10">
+          <div className="flex md:flex-row items-center">
+            <h2 className="text-xl md:text-2xl font-bold mr-4 mb-2 md:mb-0">Trends</h2>
             {/* Refresh Trends Button */}
-            <div className="flex justify-center px-2">
-                    <button 
-                        onClick={handleRefreshTrends} 
-                        className="bg-green-500 text-white text-xs font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300"
-                    >
-                        Refresh Trends
-                    </button>
-              </div>
+                  <button 
+                      onClick={handleRefreshTrends} 
+                      className="bg-green-500 text-white text-sm md:text-xs font-bold py-2 px-4 rounded-full hover:bg-green-600 transition duration-300"
+                  >
+                      Refresh Trends
+                  </button>
           </div>
-          <div className="w-4/5 h-5/6 bg-white flex justify-center items-center rounded-lg shadow-md mt-4">
+          <div className="w-full max-w-4xl h-auto bg-white flex justify-center items-center rounded-lg shadow-md mt-4 p-4">
             {!showTrends ? (
               <button className={`bg-[#F5B919] text-black font-bold py-2 px-4 hover:bg-yellow-600 rounded-full cursor-not-allowed" ${isFormEnabled ? '' : 'cursor-not-allowed opacity-50'}`} disabled={!isFormEnabled} onClick={handleGenerateTrends} >
                 Generate Trends
               </button>
             ) : (
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full max-h-screen overflow-y-auto p-4">
+                <TrendComponent title="Celebrity Spotlight" description="KIM Ha Neuls' latest comments at the K-Drama press conference"/>
+                <TrendComponent title="Tropical Trends" description="Residents told to stay home as temperatures set to cross 35 degrees this week"/>
+                <TrendComponent title="Holiday Spirit" description="Public holiday this Saturday on Malaysia Day"/>
+                <TrendComponent title="Pop Culture" description="K-pop group Black Pink is coming to Malaysia for their world tour"/>
                 <TrendComponent title="Celebrity Spotlight" description="KIM Ha Neuls' latest comments at the K-Drama press conference"/>
                 <TrendComponent title="Tropical Trends" description="Residents told to stay home as temperatures set to cross 35 degrees this week"/>
                 <TrendComponent title="Holiday Spirit" description="Public holiday this Saturday on Malaysia Day"/>
