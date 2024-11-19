@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
 from utils.schema import PushRegenerateRequest, PushRequest, PushResponse
-from utils.state import backendState
+from utils.state import backendState, initialize_backend_state
 
 api_router = APIRouter()
 
@@ -29,6 +29,8 @@ async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> di
 @api_router.post("/genPush")
 async def post_gen_push(input_data: PushRequest) -> Dict[int, PushResponse]:
    try:
+      initialize_backend_state()
+      
       backendState["type_of_push_notification"] = input_data.push_type
       backendState["name_of_series"] = input_data.series_name
       backendState["name_of_cast"] = input_data.cast_name
