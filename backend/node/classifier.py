@@ -2,6 +2,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_together import ChatTogether
 from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 from node import json_parser
+from src import data
 
 from dotenv import load_dotenv
 
@@ -96,7 +97,7 @@ def testing():
 # '‘Not True’ — Starbucks M’sia Denies It’s Closing Over 100 Outlets Across Country': 'none'} 
 
 
-def classifying_test(trend_titles):
+def classifying_test(trend_titles, cast="", series=""):
     # Define the prompt template with relevant placeholders
     query_prompt = PromptTemplate(
         input_variables=["titles", "cast", "series", "description"],
@@ -109,11 +110,13 @@ def classifying_test(trend_titles):
             series: {series}
             series_description: {description}
 
+            If star, series or series_description provided, classify strictly on the trend base on inforamtion given.      
+            
             Classify the following titles:
 
             Titles: {titles}
 
-            Classify each title into one of the following categories: (Don't be harsh)
+            Classify each title into one of the following categories:
 
             - **None**: This is not an internet trend and cannot catch people's eyeballs, DONT INCLUDE ANY INTERESTING NEWS THAT CAN CATCH PEOPLE'S ATTENTION TO THIS CATEGORY.
             - **Star**: The trend is related to a star and is useful for cast-driven push notifications.
@@ -137,12 +140,16 @@ def classifying_test(trend_titles):
     print("___Classifying Trends___")
 
     # Series and cast information
-    cast = 'Kim Ha Nuel'
-    series = 'Nothing Uncovered'
-    description = "A Korean series"
+    # cast = 'Kim Ha Nuel'
+    # series = 'Nothing Uncovered'
+    # description = "A Korean series"
+    description = ""
+    if series != "":
+        description = data.getContentDrivenData(series)['series_description']
 
     numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(trend_titles))
     response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
+    #print(response)
     response = json_parser.extract_json_from_string(response)
     print(f"Classification Results: {response}")
     return response
