@@ -24,7 +24,7 @@ async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> di
    try:
       # scrape trend function
       # return pushes
-      return get_trend(cast_name, series_name)
+      return getTrends(cast_name, series_name)
    except Exception as e:
       print(e)
       raise e
@@ -96,25 +96,25 @@ async def post_regen_push(inputData: PushRegenerateRequest) -> Dict[int, PushRes
       print(e)
       raise e
    
-@api_router.get("/savedPush")
-async def get_saved_push() -> List[Dict[str, str]]:
-   try:
-      notifications = []
-      # Read the CSV file
-      with open("\utils\history.csv", mode='r', encoding='utf-8') as file:
-         reader = csv.DictReader(file)
-         for row in reader:
-            notifications.append(row)
+# @api_router.get("/savedPush")
+# async def get_saved_push() -> List[Dict[str, str]]:
+#    try:
+#       notifications = []
+#       # Read the CSV file
+#       with open("\utils\history.csv", mode='r', encoding='utf-8') as file:
+#          reader = csv.DictReader(file)
+#          for row in reader:
+#             notifications.append(row)
 
-         return notifications
-   except Exception as e:
-      print(e)
-      raise e
+#          return notifications
+#    except Exception as e:
+#       print(e)
+#       raise e
    
-@api_router.post("/savePush")
-async def post_save_push(inputData: SaveRequest, push: Dict[int, PushResponse]) -> str:
-   try:
-      return "Push notifications liked!"
-   except Exception as e:
-      print(e)
-      raise e
+# @api_router.post("/savePush")
+# async def post_save_push(inputData: SaveRequest, push: Dict[int, PushResponse]) -> str:
+#    try:
+#       return "Push notifications liked!"
+#    except Exception as e:
+#       print(e)
+#       raise e
