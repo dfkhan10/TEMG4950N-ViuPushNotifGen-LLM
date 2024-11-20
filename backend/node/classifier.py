@@ -145,11 +145,11 @@ def classifying_test(trend_titles, cast="", series=""):
     # description = "A Korean series"
     description = ""
     if series != "":
-        description = data.getContentDrivenData(series)['series_description']
+        description = data.getContentDrivenData(series, "Viu_datasets")['series_description']
 
     numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(trend_titles))
     response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
-    #print(response)
+    print(response)
     response = json_parser.extract_json_from_string(response)
     print(f"Classification Results: {response}")
     return response
