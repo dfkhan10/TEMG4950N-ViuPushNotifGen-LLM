@@ -7,18 +7,21 @@ import json
 
 def filtering(data):
 
-    filtered_data = {key: value for key, value in data.items() if 'None' not in value.keys()}
+    filtered_data = {key: value for key, value in data.items() if value.get('classification_type') != 'None'}
     return filtered_data
 
 
-def getTrends(cast_name = "", series_name = "Viu Malaysia"):
+def getTrends(cast_name = "", series_name = ""):
     scraped_data = run_all_spiders()
     holiday_dict = scraped_data['holidays']
     trend_title = scraped_data['trends']['trend'] # IN LIST
     Today_holiday, Upcoming_holiday, Error_holiday = check_holiday_status(holiday_dict)
 
     # cast google search
-    searches = getGoogleTrend.get_trend_search(cast_name + " " + series_name)
+    if series_name == "":
+        searches = getGoogleTrend.get_trend_search("Viu Malaysia")
+    else:
+        searches = getGoogleTrend.get_trend_search(cast_name + " " + series_name)
     snippets = []
     for search in searches:
         snippets.append(search['snippet'])
@@ -27,9 +30,9 @@ def getTrends(cast_name = "", series_name = "Viu Malaysia"):
     # general google trend search
     titles = getGoogleTrend.get_trending_titles()
 
-    source1 = filtering(classifier.classifying_test(trend_title))
-    source2 = filtering(classifier.classifying_test(titles))
-    source3 = filtering(classifier.classifying_test(snippets))
+    source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
 
     combined_results = concatenate_classifications(source1, source2, source3)
 
