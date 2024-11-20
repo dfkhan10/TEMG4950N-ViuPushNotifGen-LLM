@@ -24,7 +24,7 @@ async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> di
    try:
       # scrape trend function
       # return pushes
-      return get_trend(cast_name, series_name)
+      return getTrends(cast_name, series_name)
    except Exception as e:
       print(e)
       raise e
