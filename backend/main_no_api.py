@@ -67,3 +67,14 @@ import time
 from pipeline import trendsPipeline
 # trendsPipeline.getTrends(cast, "Lovely Runner")
 trendsPipeline.getTrends()
+
+# trends = getGoogleTrend.get_trending_titles()
+
+# def clean_text(text):
+#     return text.replace('"', '').replace("'", '').replace('‘', '').replace('’', '').replace('\n', ' ')
+
+# cleaned_trend_title = [clean_text(title) for title in trends]
+
+# print(trends)
+# print("-------------------")
+# print(cleaned_trend_title)
