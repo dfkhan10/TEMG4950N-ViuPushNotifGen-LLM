@@ -40,7 +40,7 @@ const RegenPopup = ({ isOpen, onClose, push }) => {
             };
         }
         
-        console.log("Sending request data:", JSON.stringify(inputData));
+        console.log("Sending request data:", inputData);
         
         setLoading(true);
         

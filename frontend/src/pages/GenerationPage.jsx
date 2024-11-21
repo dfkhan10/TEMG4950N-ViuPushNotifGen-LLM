@@ -52,7 +52,12 @@ const GenerationPage = () => {
 
     const handleRegenPopup = (title, body) => {
         setIsOpenPopup(true);
-        setSelectedPush({"title": title, "body": body,});
+        if (title == null || body == null) {
+            setSelectedPush(null);
+        } else {
+            setSelectedPush({"title": title, "body": body,});
+        }
+        
     };
 
     return (
