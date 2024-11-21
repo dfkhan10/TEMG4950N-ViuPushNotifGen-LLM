@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from typing import Optional, Dict, List
 from pipeline.rerankingGen import finalCastPipeline, finalContentPipeline, generating
-from utils.schema import PushRegenerateRequest, PushRequest, PushResponse
+from utils.schema import PushRegenerateRequest, PushRequest, PushResponse, TrendResponse
 from utils.state import backendState, initialize_backend_state
 from pipeline.trendsPipeline import getTrends
 # import csv
@@ -10,7 +10,7 @@ from pipeline.trendsPipeline import getTrends
 api_router = APIRouter()
 
 @api_router.get("/scrapeTrends")
-async def get_trend() -> dict:
+async def get_trend() -> Dict[int, TrendResponse]:
    try:
       # scrape trend function
       # return pushes
@@ -20,7 +20,7 @@ async def get_trend() -> dict:
       raise e
 
 @api_router.post("/scrapeTrends")
-async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> dict:
+async def post_trend(cast_name: Optional[str], series_name: Optional[str]) -> Dict[int, TrendResponse]:
    try:
       # scrape trend function
       # return pushes

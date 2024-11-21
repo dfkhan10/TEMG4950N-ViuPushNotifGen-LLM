@@ -34,3 +34,7 @@ class PushResponse(BaseModel):
 class PushRegenerateRequest(BaseModel):
     basePush: Optional[PushResponse] = None
     addRequirements: Optional[str] = None
+    
+class TrendResponse(BaseModel):
+    classification_type: str
+    trend_title: str    
