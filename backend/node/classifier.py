@@ -97,7 +97,7 @@ def testing():
 # '‘Not True’ — Starbucks M’sia Denies It’s Closing Over 100 Outlets Across Country': 'none'} 
 
 def clean_text(text):
-    return text.replace('"', '').replace("'", '').replace('‘', '').replace('’', '').replace('\n', ' ')
+    return text.replace('"', '').replace("'", '').replace('‘', '').replace('’', '').replace('\n', ' ').replace('“', '').replace('”', '')
 
 def classifying_test(trend_titles, cast="", series=""):
     # Define the prompt template with relevant placeholders
@@ -148,8 +148,8 @@ def classifying_test(trend_titles, cast="", series=""):
     description = ""
     if series != "":
         description = data.getContentDrivenData(series, "Viu_datasets")['series_description']
-    cleaned_trend_title = [clean_text(title) for title in trend_titles]
-    numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(cleaned_trend_title))
+
+    numbered_titles = '\n'.join(f"{i + 1}. {title}" for i, title in enumerate(trend_titles))
     response = classifying_chain.invoke({"titles": numbered_titles, "cast": cast, "series": series, "description": description})
     print(response)
     response = json_parser.extract_json_from_string(response)
