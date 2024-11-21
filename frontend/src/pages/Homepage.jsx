@@ -71,7 +71,7 @@ export const Homepage = () => {
       creativity: creativity/100, // Use the creativity state
       demographics: age, // Use the age state
       isEmojis: isEmoji, // Use the isEmoji state
-      isSlangs: isSlang, // Use the isSlang state
+      isSlangs: isSlang, // Use the isSlang state 
       addRequirements: addRequirements, // Use the addRequirements state
       selected_trend: "",
     };
