@@ -63,8 +63,7 @@ export const TestPage = () => {
       </div>
     </div>
   );
-}      
-
+}     
 
 const genPush = async (inputData) => {
   const response = await fetch(`${backendUrl}/genPush`, {
