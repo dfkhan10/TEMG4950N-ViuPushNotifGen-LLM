@@ -30,8 +30,11 @@ def getTrends(cast_name = "", series_name = ""):
     # general google trend search
     titles = getGoogleTrend.get_trending_titles()
 
+    print('---------Get Source 1----------')
     source1 = filtering(classifier.classifying_test(trend_title, cast_name, series_name))
+    print('---------Get Source 2----------')
     source2 = filtering(classifier.classifying_test(titles, cast_name, series_name))
+    print('---------Get Source 3----------')
     source3 = filtering(classifier.classifying_test(snippets, cast_name, series_name))
 
     combined_results = concatenate_classifications(source1, source2, source3)
