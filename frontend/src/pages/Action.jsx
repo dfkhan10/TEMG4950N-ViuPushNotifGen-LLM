@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // hi
-const Action = () => {
+const Action = ({title, body}) => {
     const [showOptions, setShowOptions] = useState(false);
 
     const handleButtonClick = () => {
@@ -32,9 +32,13 @@ const Action = () => {
                         <div className="border-t border-black my-1"></div>
                         <button 
                             className="w-full text-left text-black py-2 px-4 rounded-lg mb-0"
-                            onClick={() => handleOptionClick('Confirm and Finalise')}
+                            onClick={() => {
+                                const copiedText = `${title}\n${body}`;
+                                navigator.clipboard.writeText(copiedText)
+                                handleOptionClick('Confirm and Finalise');
+                            }}
                         >
-                            Confirm and Finalise
+                            Confirm and Copy
                         </button>
                     </div>
                 </div>

@@ -38,11 +38,9 @@ const EditPushNotification = ({ titles, bodies, onTitleChange, onBodyChange }) =
 
             <div className="flex flex-col p-1 h-full ml-2">
                 <h3 className="font-bold mb-2">Actions</h3>
-                <Action />
-                <Action />
-                <Action />
-                <Action />
-                <Action />
+                {titles.map((title, index) => (
+                        <Action title={title} body={bodies[index]}/>
+                    ))}
             </div>
         </div>
     );
