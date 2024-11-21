@@ -59,7 +59,7 @@ def getTrends(cast_name = "", series_name = ""):
     print(source3)
 
     print('-------------------Combined')
-    combined_json = json.dumps(combined_results, indent=2, ensure_ascii=False)
+    combined_json = json.dumps(combined_results, ensure_ascii=False)
     print(combined_json)
 
     return combined_json
