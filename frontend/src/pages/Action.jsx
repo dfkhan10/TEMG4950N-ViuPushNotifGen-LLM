@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // hi
-const Action = ({title, body}) => {
+const Action = ({title, body, onRefineRequest}) => {
+
     const [showOptions, setShowOptions] = useState(false);
 
     const handleButtonClick = () => {
@@ -25,7 +26,11 @@ const Action = ({title, body}) => {
                     <div className="p-0">
                         <button 
                             className="w-full text-left text-black py-2 px-4 rounded-lg mb-0"
-                            onClick={() => handleOptionClick('Refine Content')}
+                            onClick={() => {
+                                onRefineRequest(title, body);
+                                console.log({title, body});
+                                handleOptionClick('Refine Content');
+                            }}
                         >
                             Refine Content
                         </button>

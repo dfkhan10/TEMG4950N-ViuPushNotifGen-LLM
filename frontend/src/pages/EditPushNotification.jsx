@@ -1,7 +1,8 @@
 import React from 'react';
 import Action from './Action';
 // hi
-const EditPushNotification = ({ titles, bodies, onTitleChange, onBodyChange }) => {
+const EditPushNotification = ({ titles, bodies, onTitleChange, onBodyChange, onRefineRequest }) => {
+
     return (
         <div className="flex items-start w-full flex-grow">
             {/* Title Text Column */}
@@ -39,7 +40,7 @@ const EditPushNotification = ({ titles, bodies, onTitleChange, onBodyChange }) =
             <div className="flex flex-col p-1 h-full ml-2">
                 <h3 className="font-bold mb-2">Actions</h3>
                 {titles.map((title, index) => (
-                        <Action title={title} body={bodies[index]}/>
+                        <Action title={title} body={bodies[index]} onRefineRequest={onRefineRequest}/>
                     ))}
             </div>
         </div>
