@@ -24,7 +24,7 @@ React, JavaScript, Python, FastAPI, LLM and retrieval tooling.
 
 ## Running locally
 
-The prototype requires API keys and data access that are not included in the setup instructions here. It may not run out of the box without the original project's dependencies and permitted data.
+The prototype requires API keys, dependencies, and content data you are permitted to use. It may not run out of the box with a fresh checkout.
 
 1. In `backend/`, create a virtual environment and install `requirements.txt`.
 2. Supply the required backend environment variables: `TOGETHER_API_KEY`, `LANGCHAIN_API_KEY`, `PINECONE_API_KEY`, and `FRONTEND_URL`.
