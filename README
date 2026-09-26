@@ -1,33 +1,34 @@
-![overall_architecture.png](src/overall_architecture.png)
+# Viu push notification generator
 
-Please create a .venv in local for the dependencies in backend
-To create the venv: python -m venv .venv
-To activate the venv: .\.venv\Scripts\Activate.ps1
-Install dependencies through pip according to requirement.txt
-To run the backend server: python main.py (localhost:8000/docs can access swagger api)
-To start the frontend server: npm start
+A team project exploring how Viu could create more relevant promotional push notifications for its streaming content. The prototype lets a user choose a show or cast member, target age range, tone, and other requirements, then generate and review English and Malay notification options.
 
-backend .env required api keys:
-TOGETHER_API_KEY
-LANGCHAIN_API_KEY
-PINECONE_API_KEY
-FRONTEND_URL
+## Problem and product
 
-frontend .env required variables:
-BACKEND_URL
+Writing variants for different titles and audiences takes time. The product gives a content team a way to set the context, generate several candidate messages, review them in a UI, and edit the copy before use. It was designed to support engagement and retention; this repository does not establish a measured impact on either.
 
-!!! DO NOT COMMIT VIU's DATA TO GITHUB!!!
-Please upload Viu's database to Viu_datasets folder
-    update gitignore if new file type is added
+## My contribution
 
-Generated pushes for now:
-1: {"english": {"title": "KIM Ha Neul's Life Turned Upside Down! 🤯", "body": "The queen of romantic comedies is now a murder suspect? �️️ Don't believe it! Watch Nothing Uncovered to uncover the truth behind the scandal! 💥 #KimHaNeul #NothingUncovered"},
-"malay": {"title": "Kehidupan KIM Ha Neul Terbalik! 🤯", "body": "Ratu komedi romantik kini menjadi suspek pembunuhan? 🚔️ Jangan percayya! Tonton Nothing Uncovered untuk mengungkapkan kebenaran di sebalik skandal! 💥 #KimHaNeul #NothingUncovered"}},
-2: {"english": {"title": "Get Ready for KIM Ha Neul's Most Intense Role Yet! 🔥", "body": "From rom-com queen to murder suspect, KIM Ha Neul's acting skills will leave you speechless! 😲 Watch Nothing Uncovered now and experience the thrill! 💥 #KimHaNeul #NothingUncovered"},
-"malay": {"title": "Bersedia untuk Peranan Paling Intens KIM Ha Neul! 🔥", "body": "Dari ratu komedi romantik ke suspek pembunuhan, kemahiran berlakon KIM Ha Neul akan meninggalkan anda terpaku! 😲 Tonton Nothing Uncovered sekarang dan rasai keseronokan! 💥 #KimHaNeul #NothingUncovered"}},
-3: {"english": {"title": "KIM Ha Neul's Fans, Rejoice! 🎉", "body": "The queen of romantic comedies is coming to Malaysia on June 10! 🇲🇾 Don't miss the chance to meet her! Meanwhile, catch her in Nothing Uncovered, a thriller like no other! 💥 #KimHaNeul #NothingUncover red #ViuEvent"},
-"malay": {"title": "Peminat KIM Ha Neul, Bergembira! 🎉", "body": "Ratu komedi romantik akan tiba di Malaysia pada 10 Jun! 🇲🇾 Jangan l lepaskan peluang untuk bertemu dengannya! Sementara itu, tonton dia dalam Nothing Uncovered, thriller seperti tidak lain! 💥 #KimHaNeul #NothingUncovered #ViuEvent"}},
-4: {"english": {"title": "Uncover the Truth with KIM Ha Neul! 🔍", "body": "The mistress is dead, and KIM Ha Neul's character is the prime suspect! 🚔️ But is she guilty? Watch Nothing Uncovered to find out! 💥 #KimHaNeul #NothingUncovered"},
-"malay": {"title": "Ungkapkan Kebenaran dengan KIM Ha Neul! 🔍", "body": "Saudari simpanan telah meninggal, dan watak KIM Ha Neul adalah suspek utama! 🚔️ Tetapi adakah dia bersalah? Tonton Nothing Uncovered untuk mengetahui! 💥 #KimHaNeul #NothingUncovered"}},
-5: {"english": {"title": "KIM Ha Neul's Most Dramatic Transformation Yet! 🔄", "body": "From glamorous TV host to murder suspect, KIM Ha Neul's character will leave you on the edge of your seat! 😱 Watch Nothing Uncovered now and experience the drama! 💥 #KimHaNeul #NothingUncovered"},
-"malay": {"title": "Transformasi Paling Dramatik KIM Ha Neul! 🔄", "body": "Dari hos TV glamour ke suspek pembunuhan, watak KIM Ha Neul akan meninggalkan anda di tepi kerusi! 😱 Tonton Nothing Uncovered sekarang dan rasai drama! 💥 #KimHaNeul #NothingUncovered"}}
+I worked across UI/UX, frontend, and backend, and participated in client interviews and the project presentation. My work included shaping the user flow for selecting content and generation settings, implementing parts of the React interface, and connecting the interface to the generation workflow. This was a team project, so the repository contains work by other contributors too.
+
+## How it works
+
+- The React frontend collects the selected show or cast member, audience age range, creativity setting, and optional style requirements.
+- A FastAPI backend routes requests to content- or cast-driven generation pipelines that use retrieval and LLM components.
+- The results screen displays English and Malay options that a user can review and edit.
+
+![System architecture](backend/src/overall_architecture.png)
+
+## Stack
+
+React, JavaScript, Python, FastAPI, LLM and retrieval tooling.
+
+## Running locally
+
+The prototype requires API keys and data access that are not included in the setup instructions here. It may not run out of the box without the original project's dependencies and permitted data.
+
+1. In `backend/`, create a virtual environment and install `requirements.txt`.
+2. Supply the required backend environment variables: `TOGETHER_API_KEY`, `LANGCHAIN_API_KEY`, `PINECONE_API_KEY`, and `FRONTEND_URL`.
+3. Run `python main.py` from `backend/`.
+4. In `frontend/`, run `npm install`, set `REACT_APP_BACKEND_URL` to the backend URL, and run `npm start`.
+
+Do not publish client data or credentials. Check data permissions before sharing or reusing files from the original project.
